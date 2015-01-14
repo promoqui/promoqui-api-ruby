@@ -13,6 +13,17 @@ module PQSDK
       end
     end
 
+    def self.get(id)
+      res = RestLayer.get("v1/stores/#{id}", { }, { 'Authorization' => "Bearer #{Token.access_token}" })
+      if res[0] == 200
+        Store.from_json res[1]
+      elsif res[0] == 404
+        nil
+      else
+        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+      end
+    end
+
     def save
       if self.id != nil
         method = :put
