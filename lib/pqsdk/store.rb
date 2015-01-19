@@ -1,6 +1,10 @@
 module PQSDK
   class Store
-    attr_accessor :id, :name, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours
+    attr_accessor :id, :name, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :leaflet_ids
+
+    def initialize
+      self.leaflet_ids = []
+    end
 
     def self.find(address, zipcode, retailer = nil)
       res = RestLayer.get('v1/stores', { address: address, zipcode: zipcode, retailer: retailer }, { 'Authorization' => "Bearer #{Token.access_token}" })
@@ -44,6 +48,7 @@ module PQSDK
       fields['city_id'] = city_id unless city_id.nil?
       fields['origin'] = origin unless origin.nil?
       fields['opening_hours'] = opening_hours.to_json unless opening_hours.nil?
+      fields['leaflet_ids'] = leaflet_ids unless leaflet_ids.nil?
 
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
 
