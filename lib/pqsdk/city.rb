@@ -29,6 +29,9 @@ module PQSDK
 
       if res[0] != 201
         raise Exception.new("Unexpected HTTP status code #{res[0]}")
+      else
+        json = JSON.parse(res[1])
+        self.id = json['id']
       end
     end
 
