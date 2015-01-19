@@ -4,6 +4,7 @@ module PQSDK
 
     def initialize
       self.leaflet_ids = []
+      self.opening_hours = []
     end
 
     def self.find(address, zipcode, retailer = nil)
@@ -47,7 +48,7 @@ module PQSDK
       fields['longitude'] = longitude unless longitude.nil?
       fields['city_id'] = city_id unless city_id.nil?
       fields['origin'] = origin unless origin.nil?
-      fields['opening_hours'] = opening_hours.to_json unless opening_hours.nil?
+      fields['opening_hours'] = opening_hours.to_json unless opening_hours.empty?
       fields['leaflet_ids'] = leaflet_ids unless leaflet_ids.nil?
 
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
