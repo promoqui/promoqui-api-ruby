@@ -49,7 +49,7 @@ module PQSDK
       fields['city_id'] = city_id unless city_id.nil?
       fields['origin'] = origin unless origin.nil?
       fields['opening_hours'] = opening_hours.to_json unless opening_hours.empty?
-      fields['leaflet_ids'] = leaflet_ids unless leaflet_ids.nil?
+      fields['leaflet_ids'] = leaflet_ids.to_json unless leaflet_ids.empty?
 
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
 
