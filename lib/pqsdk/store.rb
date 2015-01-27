@@ -48,6 +48,7 @@ module PQSDK
       fields['longitude'] = longitude unless longitude.nil?
       fields['city_id'] = city_id unless city_id.nil?
       fields['origin'] = origin unless origin.nil?
+      fields['phone'] = phone unless phone.nil?
       fields['opening_hours'] = opening_hours.to_json unless opening_hours.empty?
       fields['leaflet_ids'] = leaflet_ids.to_json unless leaflet_ids.empty?
 
