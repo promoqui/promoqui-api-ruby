@@ -41,16 +41,16 @@ module PQSDK
       end
 
       fields = {}
-      fields['name'] = name unless name.nil?
-      fields['address'] = address unless address.nil?
-      fields['zipcode'] = zipcode unless zipcode.nil?
-      fields['latitude'] = latitude unless latitude.nil?
-      fields['longitude'] = longitude unless longitude.nil?
-      fields['city_id'] = city_id unless city_id.nil?
-      fields['origin'] = origin unless origin.nil?
+      [ :name, :address, :zipcode, :latitude, :longitude, :city_id, :origin ].each do |field|
+        raise "Missing required #{field} field" if send(field).to_s == ''
+        fields[field.to_s] = send(field)
+      end
+
+      raise "Missing required leaflet_ids field" if leaflet_ids.is_a? String or leaflet_ids.to_a.empty?
+      fields['leaflet_ids'] = leaflet_ids.to_json
+
       fields['phone'] = phone unless phone.nil?
-      fields['opening_hours'] = opening_hours.to_json unless opening_hours.empty?
-      fields['leaflet_ids'] = leaflet_ids.to_json unless leaflet_ids.empty?
+      fields['opening_hours'] = opening_hours.to_json unless opening_hours.to_a.empty?
 
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
 
