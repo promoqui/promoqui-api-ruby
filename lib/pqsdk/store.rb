@@ -46,8 +46,7 @@ module PQSDK
         fields[field.to_s] = send(field)
       end
 
-      raise "Missing required leaflet_ids field" if leaflet_ids.is_a? String or leaflet_ids.to_a.empty?
-      fields['leaflet_ids'] = leaflet_ids.to_json
+      fields['leaflet_ids'] = leaflet_ids.try(:to_json) || []
 
       fields['phone'] = phone unless phone.nil?
       fields['opening_hours'] = opening_hours.to_json unless opening_hours.to_a.empty?
