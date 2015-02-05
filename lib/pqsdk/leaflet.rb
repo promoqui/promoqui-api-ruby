@@ -1,6 +1,6 @@
 module PQSDK
   class Leaflet
-    attr_accessor :id, :name, :url, :start_date, :end_date, :pdf_data
+    attr_accessor :id, :name, :url, :start_date, :end_date, :pdf_data, :image_urls
 
     def self.find(url)
       res = RestLayer.get('v1/leaflets', { url: url }, { 'Authorization' => "Bearer #{Token.access_token}" })
@@ -24,6 +24,7 @@ module PQSDK
       fields['start_date'] = start_date unless start_date.nil?
       fields['end_date'] = end_date unless end_date.nil?
       fields['pdf_data'] = pdf_data unless pdf_data.nil?
+      fields['image_urls'] = image_urls if image_urls.any?
 
       res = RestLayer.send(method, endpoint, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
 
