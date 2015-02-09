@@ -22,7 +22,7 @@ module PQSDK
       end
     end
 
-    def reset!
+    def self.reset!
       @@access_token = nil
       @@expiration = nil
     end
