@@ -1,6 +1,6 @@
 module PQSDK
   class Store
-    attr_accessor :id, :name, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :leaflet_ids
+    attr_accessor :id, :name, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :opening_hours_text, :leaflet_ids
 
     def initialize
       self.leaflet_ids = []
@@ -50,6 +50,7 @@ module PQSDK
 
       fields['phone'] = phone unless phone.nil?
       fields['opening_hours'] = opening_hours.to_json unless opening_hours.to_a.empty?
+      fields['opening_hours_text'] = opening_hours_text unless opening_hours_text.nil?
 
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
 
