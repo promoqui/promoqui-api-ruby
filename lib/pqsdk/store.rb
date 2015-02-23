@@ -1,6 +1,6 @@
 module PQSDK
   class Store
-    attr_accessor :id, :name, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :leaflet_ids
+    attr_accessor :id, :name, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :opening_hours_text, :leaflet_ids
 
     def initialize
       self.leaflet_ids = []
