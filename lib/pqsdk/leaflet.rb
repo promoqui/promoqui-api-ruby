@@ -6,13 +6,27 @@ module PQSDK
       self.image_urls = []
     end
 
-    def self.find(url,key)
+    def self.find(url,key=nil)
       res = RestLayer.get('v1/leaflets', { url: url, key: key }, { 'Authorization' => "Bearer #{Token.access_token}" })
       if res[0] == 200
         Leaflet.from_json res[1]
       elsif res[0] == 404
         nil
       else
+        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+      end
+    end
+
+    def show
+      method = :get
+      endpoint = "v1/leaflet"
+      expected_status = 201
+      fields = {}
+      fields['id'] = id unless id.is_a? Integer and !id.nil?
+
+      res = RestLayer.send(method, endpoint, fields, {'Authorization'=> "Bearer #{Token.access_token}"})
+
+      if res[0] != expected_status
         raise Exception.new("Unexpected HTTP status code #{res[0]}")
       end
     end
@@ -41,12 +55,14 @@ module PQSDK
       end
     end
 
-  private
+    private
     def self.from_json(json)
       result = Leaflet.new
 
       json.each do |key, val|
-        result.send("#{key}=", val)
+        if method_exists?("#{key}=")
+          result.send("#{key}=", val)
+        end
       end
 
       result
