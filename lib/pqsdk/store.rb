@@ -50,7 +50,7 @@ module PQSDK
 
       fields['phone'] = phone unless phone.nil?
       fields['opening_hours'] = opening_hours.to_json unless opening_hours.to_a.empty?
-      fields['opening_hours_text'] = opening_hours_text unless opening_hours_text.nil?
+      fields['opening_hours_text'] = nil unless opening_hours_text.nil?
 
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
 
@@ -63,13 +63,19 @@ module PQSDK
       end
     end
 
-  private
+    private
     def self.from_json(json)
       result = Store.new
 
       json.each do |key, val|
-        if key != 'country' && key != 'city'
-          result.send("#{key}=", val)
+        if respond_to?("#{key}=")
+          if key != 'country' && key != 'city'
+            result.send("#{key}=", val)
+          end
+        else
+          if key != 'country' && key != 'city' && key != 'retailer_id'
+            result.send("#{key}=",val)
+          end
         end
       end
 

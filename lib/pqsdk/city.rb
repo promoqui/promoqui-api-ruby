@@ -34,7 +34,7 @@ module PQSDK
       end
     end
 
-  private
+    private
     def self.from_json(json)
       result = City.new
 
