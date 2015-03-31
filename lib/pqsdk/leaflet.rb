@@ -6,7 +6,7 @@ module PQSDK
       self.image_urls = []
     end
 
-    def self.find(url,key)
+    def self.find(url,key=nil)
       res = RestLayer.get('v1/leaflets', { url: url, key: key }, { 'Authorization' => "Bearer #{Token.access_token}" })
       if res[0] == 200
         Leaflet.from_json res[1]
