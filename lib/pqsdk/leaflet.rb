@@ -7,7 +7,7 @@ module PQSDK
     end
 
     def self.find(url)
-      res = RestLayer.get('v1/leaflets', { url: url }, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.get('v1/leaflets', {url: url}, {'Authorization' => "Bearer #{Token.access_token}"})
       if res[0] == 200
         Leaflet.from_json res[1]
       elsif res[0] == 404
@@ -24,7 +24,7 @@ module PQSDK
       fields = {}
       fields['id'] = id unless id.is_a? Integer and !id.nil?
 
-      res = RestLayer.send(method, endpoint, fields, {'Authorization'=> "Bearer #{Token.access_token}"})
+      res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}"})
 
       if res[0] != expected_status
         raise Exception.new("Unexpected HTTP status code #{res[0]}")
@@ -44,7 +44,7 @@ module PQSDK
       fields['pdf_data'] = pdf_data unless pdf_data.nil?
       fields['image_urls'] = image_urls.try(:to_json) || []
 
-      res = RestLayer.send(method, endpoint, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}"})
 
       if res[0] != expected_status
         raise Exception.new("Unexpected HTTP status code #{res[0]}")
