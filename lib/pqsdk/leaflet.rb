@@ -17,6 +17,20 @@ module PQSDK
       end
     end
 
+    def show
+      method = :get
+      endpoint = "v1/leaflet"
+      expected_status = 201
+      fields = {}
+      fields['id'] = id unless id.is_a? Integer and !id.nil?
+
+      res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}"})
+
+      if res[0] != expected_status
+        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+      end
+    end
+
     def save
       method = :post
       endpoint = "v1/leaflets"
@@ -30,7 +44,7 @@ module PQSDK
       fields['pdf_data'] = pdf_data unless pdf_data.nil?
       fields['image_urls'] = image_urls.try(:to_json) || []
 
-      res = RestLayer.send(method, endpoint, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}"})
 
       if res[0] != expected_status
         raise Exception.new("Unexpected HTTP status code #{res[0]}")
