@@ -1,13 +1,13 @@
 module PQSDK
   class Leaflet
-    attr_accessor :id, :name, :url, :key, :start_date, :end_date, :pdf_data, :image_urls
+    attr_accessor :id, :name, :url, :start_date, :end_date, :pdf_data, :image_urls
 
     def initialize
       self.image_urls = []
     end
 
-    def self.find(url,key=nil)
-      res = RestLayer.get('v1/leaflets', { url: url, key: key }, { 'Authorization' => "Bearer #{Token.access_token}" })
+    def self.find(url)
+      res = RestLayer.get('v1/leaflets', { url: url }, { 'Authorization' => "Bearer #{Token.access_token}" })
       if res[0] == 200
         Leaflet.from_json res[1]
       elsif res[0] == 404
@@ -60,7 +60,7 @@ module PQSDK
       result = Leaflet.new
 
       json.each do |key, val|
-        if method_exists?("#{key}=")
+        if respond_to?("#{key}=")
           result.send("#{key}=", val)
         end
       end
