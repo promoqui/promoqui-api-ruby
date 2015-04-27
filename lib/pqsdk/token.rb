@@ -5,7 +5,7 @@ module PQSDK
 
     def self.get
       res = RestLayer.get('v1/token', {}, { 'Authentication' => "Key #{Settings.app_secret}" })
-      
+
       if res[0] == 200
         @@access_token = res[1]['token']
         @@expiration = Time.parse(res[1]['expired_at'])
