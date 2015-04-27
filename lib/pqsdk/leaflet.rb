@@ -61,7 +61,9 @@ module PQSDK
       result = Leaflet.new
 
       json.each do |key, val|
-        result.send("#{key}=", val)
+        if method_exists?("#{key}=")
+          result.send("#{key}=", val)
+        end
       end
 
       result
