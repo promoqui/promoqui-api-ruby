@@ -7,7 +7,7 @@ module PQSDK
     end
 
     def self.find(url)
-      res = RestLayer.get('v1/leaflets', {url: url}, {'Authorization' => "Bearer #{Token.access_token}"})
+      res = RestLayer.get('v1/leaflets', { url: url }, { 'Authorization' => "Bearer #{Token.access_token}" })
       if res[0] == 200
         Leaflet.from_json res[1]
       elsif res[0] == 404
