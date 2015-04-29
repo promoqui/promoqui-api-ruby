@@ -50,10 +50,7 @@ module PQSDK
 
       fields['phone'] = phone unless phone.nil?
       fields['opening_hours'] = opening_hours.to_json unless opening_hours.to_a.empty?
-<<<<<<< HEAD
-=======
-      fields['opening_hours_text'] = nil unless opening_hours_text.nil?
->>>>>>> Fix gem for responding to new api
+      fields['opening_hours_text'] = opening_hours_text unless opening_hours_text.nil?
 
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
 
