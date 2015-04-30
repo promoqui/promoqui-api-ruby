@@ -39,7 +39,9 @@ module PQSDK
       result = City.new
 
       json.each do |key, val|
-        result.send("#{key}=", val)
+        unless key == 'inhabitants'
+          result.send("#{key}=", val)
+        end
       end
 
       result
