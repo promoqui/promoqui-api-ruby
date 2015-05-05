@@ -1,7 +1,7 @@
 module PQSDK
   class RestLayer
     def self.get(endpoint, parameters, headers)
-      url = URI.parse("http://#{Settings.host}/#{endpoint}")
+      url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
       url.query = URI.encode_www_form(parameters)
       req = Net::HTTP::Get.new(url.request_uri)
 
@@ -19,7 +19,7 @@ module PQSDK
     end
 
     def self.post(endpoint, parameters, headers)
-      url = URI.parse("http://#{Settings.host}/#{endpoint}")
+      url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
       req = Net::HTTP::Post.new(url.request_uri)
       req.set_form_data(parameters)
 
@@ -36,7 +36,7 @@ module PQSDK
     end
 
     def self.put(endpoint, parameters, headers)
-      url = URI.parse("http://#{Settings.host}/#{endpoint}")
+      url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
       req = Net::HTTP::Put.new(url.request_uri)
       req.set_form_data(parameters)
 
