@@ -79,8 +79,6 @@ module PQSDK
         end
       end
 
-      result.city_id = PQSDK::City.find(json['city']).id
-
       result
     end
   end
