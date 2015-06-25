@@ -60,8 +60,16 @@ module PQSDK
       result = Leaflet.new
 
       json.each do |key, val|
-        if respond_to?("#{key}=")
+        if result.respond_to?("#{key}=") and key != 'retailer' and key != 'url' and key != 'pages'
           result.send("#{key}=", val)
+        elsif key=="url" and result.respond_to?(:origin=)
+          result.origin=val
+        elsif key=="retailer" and result.respond_to?(:retailer_id=)
+          result.retailer_id=val['id']
+        elsif key=="pages" and result.respond_to?(:page)
+          val.each do |page|
+            result.page_ids << page['id']
+          end
         end
       end
 
