@@ -1,6 +1,6 @@
 module PQSDK
   class City
-    attr_accessor :id, :name, :inhabitants, :latitude, :longitude
+    attr_accessor :id, :name, :inhabitants, :latitude, :longitude, :state
 
     def self.find(name)
       res = RestLayer.get('v1/cities', { q: name }, { 'Authorization' => "Bearer #{Token.access_token}" })
