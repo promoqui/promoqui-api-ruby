@@ -1,5 +1,7 @@
 module PQSDK
   class Settings
+    # Why not cattr_accessor? :(
+
     @@host = nil
     @@app_secret = nil
     @@schema = 'http'
