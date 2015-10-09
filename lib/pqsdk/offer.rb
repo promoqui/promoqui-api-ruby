@@ -2,8 +2,12 @@ module PQSDK
   class Offer
     attr_accessor :title, :description, :price, :original_price, :discount, :start_date, :end_date, :image, :store_ids
 
-    def initialize
-      store_ids = []
+    def initialize(params = {})
+      params.each do |key, val|
+        send("#{key}=", val)
+      end
+
+      store_ids ||= []
     end
 
     def save

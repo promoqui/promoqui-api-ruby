@@ -2,9 +2,13 @@ module PQSDK
   class Store
     attr_accessor :id, :name, :city, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :opening_hours_text, :leaflet_ids
 
-    def initialize
-      self.leaflet_ids = []
-      self.opening_hours = []
+    def initialize(params = {})
+      params.each do |key, val|
+        send("#{key}=", val)
+      end
+
+      self.leaflet_ids ||= []
+      self.opening_hours ||= []
     end
 
     def self.find(address, zipcode, retailer = nil)
@@ -45,11 +49,11 @@ module PQSDK
         raise "Missing required #{field} field" if send(field).to_s == ''
         fields[field.to_s] = send(field)
       end
-      
+
       if city.nil? and city_id.nil?
         raise "city or city_id must be set"
       end
-      
+
       fields['city'] = city if city
       fields['city_id'] = city_id if city_id
 

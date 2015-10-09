@@ -1,9 +1,14 @@
 module PQSDK
   class Leaflet
-    attr_accessor :id, :name, :url, :start_date, :end_date, :pdf_data, :image_urls
+    attr_accessor :id, :name, :url, :start_date, :end_date, :pdf_data, :image_urls, :store_ids
 
-    def initialize
-      self.image_urls = []
+    def initialize(params = {})
+      params.each do |key, val|
+        send("#{key}=", val)
+      end
+
+      self.image_urls ||= []
+      self.store_ids ||= []
     end
 
     def self.find(url)
