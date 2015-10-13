@@ -30,5 +30,19 @@ module PQSDK
         raise Exception.new("Unexpected HTTP status code #{res[0]}")
       end
     end
+
+    def to_hash
+      {
+        title: title,
+        description: description,
+        price: price,
+        original_price: original_price,
+        discount: discount,
+        start_date: start_date,
+        end_date: end_date,
+        image: image,
+        store_ids: store_ids
+      }
+    end
   end
 end
