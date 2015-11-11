@@ -1,6 +1,6 @@
 module PQSDK
   class Offer
-    attr_accessor :title, :description, :price, :original_price, :discount, :start_date, :end_date, :image, :store_ids
+    attr_accessor :title, :description, :price, :original_price, :discount, :start_date, :end_date, :brand, :image, :store_ids
 
     def initialize(params = {})
       params.each do |key, val|
@@ -15,7 +15,7 @@ module PQSDK
       endpoint = "v1/offers"
 
       fields = {}
-      [ :title, :description, :price, :original_price, :discount, :start_date, :end_date, :image ].each do |key|
+      [ :title, :description, :price, :original_price, :discount, :start_date, :end_date, :brand, :image ].each do |key|
         fields[key.to_s] = send(key) unless send(key).nil?
       end
       fields['store_ids'] = store_ids
@@ -40,6 +40,7 @@ module PQSDK
         discount: discount,
         start_date: start_date,
         end_date: end_date,
+        brand: brand,
         image: image,
         store_ids: store_ids
       }
