@@ -1,9 +1,7 @@
 module PQSDK
   class Offer
-    attr_accessor :title, :description, :price, :original_price, :discount, :start_date, :end_date, :brand, :image, :store_ids
-
-    attr_accessor :national, :partner_link
-    attr_accessor :btn_other_offers_visible, :btn_partner_link_text, :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible, :btn_online_offers_visible
+    attr_accessor :title, :description, :price, :original_price, :discount, :start_date, :end_date, :brand, :image, :store_ids, :national, :partner_link,
+                  :btn_other_offers_visible, :btn_partner_link_text, :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible, :btn_online_offers_visible
 
     def initialize(params = {})
       params.each do |key, val|
@@ -19,7 +17,7 @@ module PQSDK
 
       fields = {}
       [ :title, :description, :price, :original_price, :discount, :start_date, :end_date, :brand, :image,
-        :national, :partner_link
+        :national, :partner_link,
         :btn_other_offers_visible, :btn_partner_link_text, :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible, :btn_online_offers_visible ].each do |key|
         fields[key.to_s] = send(key) unless send(key).nil?
       end
