@@ -48,6 +48,7 @@ module PQSDK
       fields['end_date'] = end_date unless end_date.nil?
       fields['pdf_data'] = pdf_data unless pdf_data.nil?
       fields['image_urls'] = image_urls.try(:to_json) || []
+      fields['store_ids'] = store_ids.try(:to_json) || []
 
       res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}"})
 
