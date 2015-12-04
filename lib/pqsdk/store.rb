@@ -44,26 +44,26 @@ module PQSDK
         expected_status = 201
       end
 
-      fields = {}
-      [ :name, :address, :zipcode, :latitude, :longitude, :origin ].each do |field|
-        raise "Missing required #{field} field" if send(field).to_s == ''
-        fields[field.to_s] = send(field)
-      end
-
       if city.nil? and city_id.nil?
         raise "city or city_id must be set"
       end
 
-      fields['city'] = city if city
-      fields['city_id'] = city_id if city_id
+      fields = {}
+      if method != :put
+        [ :name, :address, :zipcode, :latitude, :longitude, :origin ].each do |field|
+          raise "Missing required #{field} field" if send(field).to_s == ''
+          fields[field.to_s] = send(field)
+        end
 
-      fields['leaflet_ids'] = leaflet_ids.try(:to_json) || []
+        fields['city'] = city if city
+        fields['city_id'] = city_id if city_id
+        fields['phone'] = phone if phone
+      end
 
-      fields['phone'] = phone unless phone.nil?
-      fields['opening_hours'] = opening_hours.to_json unless opening_hours.to_a.empty?
-      fields['opening_hours_text'] = opening_hours_text unless opening_hours_text.nil?
+      fields['opening_hours'] = opening_hours if opening_hours.try(:any?)
+      fields['opening_hours_text'] = opening_hours_text if opening_hours_text.present?
 
-      res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json' })
 
       if res[0] != expected_status
         raise Exception.new("Unexpected HTTP status code #{res[0]}")
