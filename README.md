@@ -17,6 +17,20 @@ PQSDK::Settings.app_secret = 'sup3rs3cr3t'
 
 The PromoQui REST API requires the app secret to be exchanged with a token with a duration of 3 hours. All the Token exchange and renovation is handled internally by the library, so that you can completely ignore it.
 
+# Working with brands
+
+```ruby
+city = PQSDK::Brand.find('Apple')
+```
+
+That line of code will interrogate the PromoQui database for that Brand and will return a Brand object, containing details like: id, name, slug.
+
+```ruby
+city = PQSDK::Brand.list
+```
+
+That line of code will interrogate the PromoQui database for that all brands and will return Brand objects array.
+
 # Working with cities
 
 ```ruby
