@@ -1,6 +1,7 @@
 require 'net/http'
 require 'json'
 require 'time'
+require 'pqsdk/brand'
 require 'pqsdk/city'
 require 'pqsdk/leaflet'
 require 'pqsdk/offer'
