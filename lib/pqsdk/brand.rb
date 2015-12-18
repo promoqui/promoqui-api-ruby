@@ -9,7 +9,7 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
       end
     end
 
@@ -20,7 +20,7 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
       end
     end
 

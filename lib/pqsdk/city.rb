@@ -9,7 +9,7 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
       end
     end
 
@@ -28,7 +28,7 @@ module PQSDK
       res = RestLayer.post('v1/cities', { name: name }, { 'Authorization' => "Bearer #{Token.access_token}" })
 
       if res[0] != 201
-        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
       else
         self.id = res[1]['id']
       end

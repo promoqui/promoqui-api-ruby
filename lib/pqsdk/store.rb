@@ -18,7 +18,7 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
       end
     end
 
@@ -29,7 +29,7 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
       end
     end
 
@@ -66,7 +66,7 @@ module PQSDK
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json' })
 
       if res[0] != expected_status
-        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
       else
         if method == :post
           self.id = res[1]['id']
