@@ -50,7 +50,7 @@ module PQSDK
       fields['image_urls'] = image_urls.try(:to_json) || []
       fields['store_ids'] = store_ids.try(:to_json) || []
 
-      res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json'})
+      res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}"})
 
       if res[0] != expected_status
         raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
