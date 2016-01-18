@@ -13,6 +13,21 @@ module PQSDK
       end
     end
 
+    def self.all
+      res = RestLayer.get('v1/cities', {}, {'Authorization' => "Bearer #{Token.access_token}" })
+      if res[0] == 200
+        cities = []
+        res[1].each do |city|
+          cities << City.from_json city
+        end
+        return cities
+      elsif res[0] == 404
+        nil
+      else
+        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
+      end
+    end
+
     def self.find_or_create(name)
       city = self.find(name)
       return city if city
