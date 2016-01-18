@@ -20,18 +20,23 @@ The PromoQui REST API requires the app secret to be exchanged with a token with 
 # Working with brands
 
 ```ruby
-city = PQSDK::Brand.find('Apple')
+brand = PQSDK::Brand.find('Apple')
 ```
 
 That line of code will interrogate the PromoQui database for that Brand and will return a Brand object, containing details like: id, name, slug.
 
 ```ruby
-city = PQSDK::Brand.list
+brands = PQSDK::Brand.list
 ```
 
 That line of code will interrogate the PromoQui database for that all brands and will return Brand objects array.
 
 # Working with cities
+
+```ruby
+city = PQSDK::City.find 'Rome'
+```
+That line of code will interrogate the Promoqui database for the given city. If the city exists on our database, it will return a City object all details about the given city such as: name, latitude, longitude, inhabitants and most importantly the City ID.
 
 ```ruby
 city = PQSDK::City.find_or_create('Rome')
@@ -44,13 +49,29 @@ That line of code will interrogate the PromoQui database for that City, eventual
 ```ruby
 store = PQSDK::Store.find('Via Roma, 32', '80100')
 if store.nil?
-  store = PQSDK::Store.new
-  # Set all the store details (including opening hours)
-  store.save
+  store = PQSDK::Store.new 
+  store.name = "Store name" #Required!
+  store.address = "Via Roma, 32" Required!
+  store.city = "Naples" # if the city is not present on database then the city will be created. Required!
+  store.latitude = # insert the store's latitude. Required!
+  store.longitude = # insert the store's longitude. Required!
+  store.zipcode = # insert the store's postalcode. if there is no postalcode, insert "00000". Required!
+  store.origin = # insert the store's url. Required!
+  store.phone = # insert the store's phone if present
 end
+store.opening_hours = [store_hours] # Insert the store's opening hours as array. Required!
+store.save # Save store's data
 ```
 
-That code will interrogate the database for a store at that address, with that zipcode, among the stores for the retailer we were assigned. If a store was not found, it will create it.
+>##Note!##
+>The opening hours array must be as follow:
+><pre><code language="ruby">
+>[{:weekday=>0, :open_am=>"09:00", :close_am=>"13:00", :open_pm=>"14:00", :close_pm=>"18:00"},...]
+> If the store is closed you need to use such as: [{:weekday=>6, :closed=>true}]
+></code></pre>
+
+
+That code will interrogate the database for a store at that address, with that zipcode, among the stores for the retailer we were assigned. If the store was not found then we will set all data of store and then save it.
 
 # Working with leaflets
 
@@ -78,5 +99,25 @@ leaflet.store_ids = [ store.id ]
 leaflet.pdf_data = binary_blob
 leaflet.save
 ```
+
+#Working with offers
+
+For each offer we need to parse:
+  * Offer's title
+  * Offer's description
+  * Offer's url
+  * Offer's image url
+  * Offer's price
+  * Offer's original price _if present_
+  
+Suppose we have all offers saved in an array called `offers` and an array called `storeIds` that contains all store ids:
+```ruby
+offers.each do |data|
+  data[:store_ids] = storeIds #add store ids to offer array
+  offer = PQSDK::Offer.new(data)
+  offer.save
+end
+```
+With the above code we scroll all offers, asing storeIds to offer and save it.
 
 # Have a nice day
