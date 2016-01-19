@@ -1,6 +1,6 @@
 module PQSDK
   class City
-    attr_accessor :id, :name, :inhabitants, :latitude, :longitude, :state
+    attr_accessor :id, :name, :inhabitants, :latitude, :longitude, :state, :country
 
     def self.find(name)
       res = RestLayer.get('v1/cities', { q: name }, { 'Authorization' => "Bearer #{Token.access_token}" })
@@ -54,7 +54,7 @@ module PQSDK
       result = City.new
 
       json.each do |key, val|
-        unless key == 'inhabitants'
+        unless key == 'inhabitants' 
           result.send("#{key}=", val)
         end
       end
