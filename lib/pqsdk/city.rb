@@ -18,7 +18,7 @@ module PQSDK
       if res[0] == 200
         cities = []
         res[1].each do |city|
-          cities << City.from_json city
+          cities << City.from_json(city)
         end
         return cities
       elsif res[0] == 404
