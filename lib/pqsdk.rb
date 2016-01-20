@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'faraday'
 require 'time'
 require 'pqsdk/brand'
 require 'pqsdk/city'

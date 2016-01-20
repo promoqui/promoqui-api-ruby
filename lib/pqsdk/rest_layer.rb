@@ -2,24 +2,16 @@ module PQSDK
   class RestLayer
 
     def self.get(endpoint, parameters = {}, headers = {})
-      url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
-      url.query = URI.encode_www_form(parameters)
-      req = Net::HTTP::Get.new(url.request_uri)
+      conn = Faraday.new("#{Settings.schema}://#{Settings.host}")
 
-      headers.each do |name, value|
-        req[name.to_s] = value
-      end
+      res = conn.get endpoint, parameters, headers
 
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.request(req)
-      end
-
-      check_status(res.code.to_i, res.body)
+      check_status(res.status.to_i, res.body)
 
       begin
-        [ res.code.to_i, JSON.parse(res.body), res.to_hash ]
+        [ res.status.to_i, JSON.parse(res.body), res.headers ]
       rescue JSON::ParserError
-        [ res.code.to_i, nil, res.to_hash ]
+        [ res.status.to_i, nil, res.headers ]
       end
     end
 

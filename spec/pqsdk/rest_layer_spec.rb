@@ -34,35 +34,35 @@ describe PQSDK::RestLayer do
     end
 
     it 'returns an array with the status code as the first element' do
-      stub = stub_request(:get, "www.example.com/api.json")
-                          .to_return(body: '{}', status: 203)
+      stub_request(:get, "www.example.com/api.json")
+                    .to_return(body: '{}', status: 203)
 
       response = PQSDK::RestLayer.get('api.json')
       expect(response[0]).to eq 203
     end
 
     it 'returns an array with the parsed json body as second element' do
-      stub = stub_request(:get, "www.example.com/api.json")
-                          .to_return(body: '{"hello": "world"}')
+      stub_request(:get, "www.example.com/api.json")
+                    .to_return(body: '{"hello": "world"}')
 
       response = PQSDK::RestLayer.get('api.json')
       expect(response[1]).to eq({ 'hello' => 'world' })
     end
 
     it 'returns an array with nil as second element when the body is not valid json' do
-      stub = stub_request(:get, "www.example.com/api.json")
-                          .to_return(body: 'fake random data')
+      stub_request(:get, "www.example.com/api.json")
+                    .to_return(body: 'fake random data')
 
       response = PQSDK::RestLayer.get('api.json')
       expect(response[1]).to be_nil
     end
 
     it 'returns an array with the normalized response headers as the third element' do
-      stub = stub_request(:get, "www.example.com/api.json")
-                          .to_return(body: '{}', headers: { 'X-Location' =>  'Rome' })
+      stub_request(:get, "www.example.com/api.json")
+                    .to_return(body: '{}', headers: { 'X-Location' =>  'Rome' })
 
       response = PQSDK::RestLayer.get('api.json')
-      expect(response[2]).to eq({ 'x-location' => [ 'Rome' ] })
+      expect(response[2]).to eq({ 'x-location' => 'Rome' })
     end
   end
 end
