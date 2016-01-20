@@ -1,6 +1,7 @@
 module PQSDK
   class RestLayer
-    def self.get(endpoint, parameters, headers)
+
+    def self.get(endpoint, parameters = {}, headers = {})
       url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
       url.query = URI.encode_www_form(parameters)
       req = Net::HTTP::Get.new(url.request_uri)
@@ -15,7 +16,11 @@ module PQSDK
 
       check_status(res.code.to_i, res.body)
 
-      [ res.code.to_i, JSON.parse(res.body), res.to_hash ]
+      begin
+        [ res.code.to_i, JSON.parse(res.body), res.to_hash ]
+      rescue JSON::ParserError
+        [ res.code.to_i, nil, res.to_hash ]
+      end
     end
 
     def self.post(endpoint, parameters, headers)
