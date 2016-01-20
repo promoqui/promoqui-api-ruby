@@ -15,7 +15,7 @@ module PQSDK
       end
     end
 
-    def self.post(endpoint, parameters, headers)
+    def self.post(endpoint, parameters = {}, headers = {})
       url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
       req = Net::HTTP::Post.new(url.request_uri)
 

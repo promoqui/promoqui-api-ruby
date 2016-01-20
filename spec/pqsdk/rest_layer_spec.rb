@@ -66,4 +66,15 @@ describe PQSDK::RestLayer do
       expect(response[2]).to eq({ 'x-location' => 'Rome' })
     end
   end
+
+  describe '.post' do
+    it 'launches a post request on the settings domain and given path' do
+      stub = stub_request(:post, "www.example.com/api.json")
+                          .to_return(body: '{}')
+
+      PQSDK::RestLayer.post('api.json')
+
+      expect(stub).to have_been_requested
+    end
+  end
 end
