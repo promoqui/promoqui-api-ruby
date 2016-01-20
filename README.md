@@ -1,4 +1,4 @@
-# PromoQui API Wrapper for Ruby
+# PromoQui API Wrapper for Ruby
 
 This library is for internal use only. It serves as an helper for Ruby developers when interacting with the PromoQui REST API for Crawlers.
 
@@ -43,6 +43,11 @@ city = PQSDK::City.find_or_create('Rome')
 ```
 
 That line of code will interrogate the PromoQui database for that City, eventually creating it if not found, and will return a City object, containing all the details like: latitude, longitude, inhabitants and most importantly the City ID.
+
+To get only cities from a specific country you have to use something like this:
+```ruby
+cities = PQSDK::City.all.select{|x| x.country == 'gbr'} # will return an array of City objects that havve only country=gbr
+```
 
 # Working with stores
 
@@ -100,6 +105,16 @@ leaflet.pdf_data = binary_blob
 leaflet.save
 ```
 
+If you have lealfet pages instead of leaflet's pdf url or leaflet's raw data, you can send an array of images urls such as:
+
+```ruby
+leaflet = PQSDK::Leaflet.new
+leaflet.name = "leaflet's name"
+leaflet.url = "leaflet's url"
+leaflet.image_urls = [ leaflet_pages ] # it must be an array of urls
+leaflet.store_ids = [ storeIds ]
+leaflet.save
+```
 #Working with offers
 
 For each offer we need to parse:
