@@ -1,13 +1,12 @@
 module PQSDK
   class Store
-    attr_accessor :id, :name, :city, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :opening_hours_text, :leaflet_ids
+    attr_accessor :id, :name, :city, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :opening_hours_text
 
     def initialize(params = {})
       params.each do |key, val|
         send("#{key}=", val)
       end
 
-      self.leaflet_ids ||= []
       self.opening_hours ||= []
     end
 
