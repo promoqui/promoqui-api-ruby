@@ -100,6 +100,16 @@ leaflet.pdf_data = binary_blob
 leaflet.save
 ```
 
+If you have lealfet pages instead of leaflet's pdf url or leaflet's raw data, you can send an array of images urls such as:
+
+```ruby
+leaflet = PQSDK::Leaflet.new
+leaflet.name = "leaflet's name"
+leaflet.url = "leaflet's url"
+leaflet.image_urls = [ leaflet_pages ] # it must be an array of urls
+leaflet.store_ids = [ storeIds ]
+leaflet.save
+```
 #Working with offers
 
 For each offer we need to parse:
