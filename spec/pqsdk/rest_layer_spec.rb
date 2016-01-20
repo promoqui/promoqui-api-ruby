@@ -1,5 +1,6 @@
 describe PQSDK::RestLayer do
   before do
+    PQSDK::Settings.schema = 'http'
     PQSDK::Settings.host = 'www.example.com'
   end
 

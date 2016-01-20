@@ -2,7 +2,7 @@ module PQSDK
   class RestLayer
 
     def self.get(endpoint, parameters = {}, headers = {})
-      conn = Faraday.new("#{Settings.schema}://#{Settings.host}")
+      conn = Faraday.new(Settings.api_root)
 
       res = conn.get endpoint, parameters, headers
 

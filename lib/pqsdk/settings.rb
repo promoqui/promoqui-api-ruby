@@ -1,33 +1,15 @@
 module PQSDK
   class Settings
-    # Why not cattr_accessor? :(
+    class << self
+      attr_accessor :host, :app_secret, :schema
 
-    @@host = nil
-    @@app_secret = nil
-    @@schema = 'http'
-
-    def self.host
-      @@host
+      def schema
+        @schema ||= 'http'
+      end
     end
 
-    def self.host=(val)
-      @@host = val
-    end
-
-    def self.app_secret
-      @@app_secret
-    end
-
-    def self.app_secret=(val)
-      @@app_secret = val
-    end
-
-    def self.schema
-      @@schema
-    end
-
-    def self.schema=(val)
-      @@schema = val
+    def self.api_root
+      "#{schema}://#{host}"
     end
   end
 end
