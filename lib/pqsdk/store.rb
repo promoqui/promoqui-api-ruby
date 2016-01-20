@@ -1,13 +1,14 @@
 module PQSDK
   class Store
-    attr_accessor :id, :name, :city, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :opening_hours_text
+    attr_reader :id
+    attr_accessor :name, :city, :address, :zipcode, :latitude, :longitude, :phone, :city_id, :origin, :opening_hours, :opening_hours_text
 
     def initialize(params = {})
-      params.each do |key, val|
-        send("#{key}=", val)
-      end
-
       self.opening_hours ||= []
+
+      params.each do |key, val|
+        send("#{key}=", val) if respond_to?("#{key}=")
+      end
     end
 
     def self.find(address, zipcode, retailer = nil)
