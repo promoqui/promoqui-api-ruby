@@ -1,4 +1,5 @@
 require 'pqsdk'
+require 'webmock/rspec'
 require 'support/matchers'
 
 RSpec.configure do |config|
