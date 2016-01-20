@@ -17,4 +17,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec', '~> 3.4.0'
   s.add_development_dependency 'rake'
+  s.add_development_dependency 'guard'
+  s.add_development_dependency 'guard-rspec', '~> 4.6.0'
 end
