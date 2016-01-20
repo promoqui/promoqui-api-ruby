@@ -44,6 +44,11 @@ city = PQSDK::City.find_or_create('Rome')
 
 That line of code will interrogate the PromoQui database for that City, eventually creating it if not found, and will return a City object, containing all the details like: latitude, longitude, inhabitants and most importantly the City ID.
 
+To get only cities from a specific country you have to use something like this:
+```ruby
+cities = PQSDK::City.all.select{|x| x.country == 'gbr'} # will return an array of City objects that havve only country=gbr
+```
+
 # Working with stores
 
 ```ruby
