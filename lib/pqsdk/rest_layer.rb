@@ -1,6 +1,5 @@
 module PQSDK
   class RestLayer
-
     def self.get(endpoint, parameters = {}, headers = {})
       conn = Faraday.new(Settings.api_root)
 
@@ -16,51 +15,39 @@ module PQSDK
     end
 
     def self.post(endpoint, parameters = {}, headers = {})
-      url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
-      req = Net::HTTP::Post.new(url.request_uri)
+      conn = Faraday.new(Settings.api_root)
 
       if headers['Content-Type'] == 'application/json'
-        req.body = parameters.to_json
+        res = conn.post endpoint, parameters.to_json, headers
       else
-        req.set_form_data(parameters)
+        res = conn.post endpoint, parameters, headers
       end
 
-      headers.each do |name, value|
-        req[name.to_s] = value
-      end
+      check_status(res.status.to_i, res.body)
 
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.request(req)
-      end
-
-      check_status(res.code.to_i, res.body)
-      if res.body and res.body.length > 1
-        [ res.code.to_i, JSON.parse(res.body), res.to_hash ]
-      else
-        [ res.code.to_i, {}, res.to_hash ]
+      begin
+        [ res.status.to_i, JSON.parse(res.body), res.headers ]
+      rescue JSON::ParserError
+        [ res.status.to_i, nil, res.headers ]
       end
     end
 
-    def self.put(endpoint, parameters, headers)
-      url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
-      req = Net::HTTP::Put.new(url.request_uri)
+    def self.put(endpoint, parameters = {}, headers = {})
+      conn = Faraday.new(Settings.api_root)
 
       if headers['Content-Type'] == 'application/json'
-        req.body = parameters.to_json
+        res = conn.put endpoint, parameters.to_json, headers
       else
-        req.set_form_data(parameters)
+        res = conn.put endpoint, parameters, headers
       end
 
-      headers.each do |name, value|
-        req[name.to_s] = value
-      end
+      check_status(res.status.to_i, res.body)
 
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.request(req)
+      begin
+        [ res.status.to_i, JSON.parse(res.body), res.headers ]
+      rescue JSON::ParserError
+        [ res.status.to_i, nil, res.headers ]
       end
-
-      check_status(res.code.to_i, res.body)
-      [ res.code.to_i, JSON.parse(res.body), res.to_hash ]
     end
 
   private
