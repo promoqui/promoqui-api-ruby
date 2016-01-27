@@ -75,6 +75,10 @@ module PQSDK
     end
 
     private
+    def self.id=(id)
+      @id = id
+    end
+
     def self.from_json(json)
       result = Store.new
 
