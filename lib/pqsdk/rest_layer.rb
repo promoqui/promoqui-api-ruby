@@ -6,12 +6,6 @@ module PQSDK
       res = connection.get endpoint, parameters, headers
 
       check_result(res)
-
-      begin
-        [res.status.to_i, JSON.parse(res.body), res.headers]
-      rescue JSON::ParserError
-        [res.status.to_i, nil, res.headers]
-      end
     end
 
     def self.post(endpoint, parameters = {}, headers = {})
@@ -19,12 +13,6 @@ module PQSDK
       res = connection.post endpoint, parameters, headers
 
       check_result(res)
-
-      begin
-        [res.status.to_i, JSON.parse(res.body), res.headers]
-      rescue JSON::ParserError
-        [res.status.to_i, nil, res.headers]
-      end
     end
 
     def self.put(endpoint, parameters = {}, headers = {})
@@ -32,12 +20,6 @@ module PQSDK
       res = connection.put endpoint, parameters, headers
 
       check_result(res)
-
-      begin
-        [res.status.to_i, JSON.parse(res.body), res.headers]
-      rescue JSON::ParserError
-        [res.status.to_i, nil, res.headers]
-      end
     end
 
     def self.connection
@@ -45,10 +27,15 @@ module PQSDK
     end
 
     def self.check_result(result)
-      if result.status.to_i >= 500
-        fail "Internal Server Error: #{result.body}"
-      elsif result.status.to_i == 401
-        fail 'You are not authorized to perform that request'
+      status = result.status.to_i
+      headers = result.headers
+      fail "Internal Server Error: #{result.body}" if status >= 500
+      fail 'You are not authorized to perform that request' if status == 401
+
+      begin
+        [status, JSON.parse(res.body), headers]
+      rescue JSON::ParserError
+        [status, nil, headers]
       end
     end
   end
