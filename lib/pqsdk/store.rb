@@ -60,7 +60,7 @@ module PQSDK
         fields['phone'] = phone if phone
       end
 
-      fields['opening_hours'] = opening_hours if opening_hours.is_a?(Array) && opening_hours.try(:any?)
+      fields['opening_hours'] = opening_hours if opening_hours.is_a?(Array) && opening_hours.any?
       fields['opening_hours_text'] = opening_hours_text if opening_hours_text
 
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json' })
