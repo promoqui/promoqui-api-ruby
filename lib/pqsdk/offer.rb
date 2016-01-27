@@ -12,6 +12,8 @@ module PQSDK
                   :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible,
                   :btn_online_offers_visible
 
+    validates :title, :image, :store_ids, presence: true
+
     def attributes
       {
         'title' => nil, 'description' => nil, 'price' => nil, 'original_price' => nil,
