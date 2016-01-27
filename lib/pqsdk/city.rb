@@ -31,11 +31,7 @@ module PQSDK
     def self.all
       res = RestLayer.get('v1/cities')
       if res[0] == 200
-        cities = []
-        res[1].each do |city|
-          cities << City.from_json(city)
-        end
-        return cities
+        res[1].map { |city| City.from_json(city) }
       elsif res[0] == 404
         nil
       else
