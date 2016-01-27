@@ -4,7 +4,8 @@ module PQSDK
   class Store < RemoteObject
     @endpoint = "v1/stores"
 
-    attr_accessor :id, :origin, :name, :address, :latitude, :longitude, :city, :city_id, :zipcode, :phone, :opening_hours, :opening_hours_text
+    attr_accessor :id, :origin, :name, :address, :latitude, :longitude, :city,
+                  :city_id, :zipcode, :phone, :opening_hours, :opening_hours_text
 
     validates :origin, :name, :address, :latitude, :longitude, presence: true
     validates :city_id, presence: true, if: proc { |s| s.city.nil? }
@@ -30,9 +31,9 @@ module PQSDK
     end
 
     def self.find(address, zipcode, retailer = nil)
-      res = RestLayer.get('v1/stores', { address: address, zipcode: zipcode, retailer: retailer }, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.get(@endpoint, { address: address, zipcode: zipcode, retailer: retailer }, { 'Authorization' => "Bearer #{Token.access_token}" })
       if res[0] == 200
-        Store.from_json res[1]
+        self.from_json res[1]
       elsif res[0] == 404
         nil
       else
