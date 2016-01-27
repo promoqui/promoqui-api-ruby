@@ -3,7 +3,7 @@ module PQSDK
     attr_accessor :id, :name, :inhabitants, :latitude, :longitude, :state, :country
 
     def self.find(name)
-      res = RestLayer.get('v1/cities', { q: name }, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.get('v1/cities', { q: name }, 'Authorization' => "Bearer #{Token.access_token}")
       if res[0] == 200
         City.from_json res[1]
       elsif res[0] == 404
@@ -14,7 +14,7 @@ module PQSDK
     end
 
     def self.all
-      res = RestLayer.get('v1/cities', {}, {'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.get('v1/cities', {}, 'Authorization' => "Bearer #{Token.access_token}")
       if res[0] == 200
         cities = []
         res[1].each do |city|
@@ -40,7 +40,7 @@ module PQSDK
     end
 
     def save
-      res = RestLayer.post('v1/cities', { name: name }, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.post('v1/cities', { name: name }, 'Authorization' => "Bearer #{Token.access_token}")
 
       if res[0] != 201
         raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
@@ -50,6 +50,7 @@ module PQSDK
     end
 
     private
+
     def self.from_json(json)
       result = City.new
 

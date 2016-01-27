@@ -13,13 +13,13 @@ module PQSDK
     def save
       request = []
       method = :post
-      endpoint = "v1/offers"
+      endpoint = 'v1/offers'
 
       @offers.each do |offer|
         request << offer.to_hash
       end
 
-      res = RestLayer.send(method, endpoint, request, {'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json'})
+      res = RestLayer.send(method, endpoint, request, 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json')
 
       if res[0] == 200
         # All right!

@@ -12,7 +12,7 @@ module PQSDK
     end
 
     def self.find(url)
-      res = RestLayer.get('v1/leaflets', { url: url }, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.get('v1/leaflets', { url: url }, 'Authorization' => "Bearer #{Token.access_token}")
       if res[0] == 200
         Leaflet.from_json res[1]
       elsif res[0] == 404
@@ -24,12 +24,12 @@ module PQSDK
 
     def show
       method = :get
-      endpoint = "v1/leaflet"
+      endpoint = 'v1/leaflet'
       expected_status = 201
       fields = {}
       fields['id'] = id unless id.is_a? Integer and !id.nil?
 
-      res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}"})
+      res = RestLayer.send(method, endpoint, fields, 'Authorization' => "Bearer #{Token.access_token}")
 
       if res[0] != expected_status
         raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
@@ -38,7 +38,7 @@ module PQSDK
 
     def save
       method = :post
-      endpoint = "v1/leaflets"
+      endpoint = 'v1/leaflets'
       expected_status = 201
 
       fields = {}
@@ -50,7 +50,7 @@ module PQSDK
       fields['image_urls'] = image_urls.try(:to_json) || []
       fields['store_ids'] = store_ids.try(:to_json) || []
 
-      res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}"})
+      res = RestLayer.send(method, endpoint, fields, 'Authorization' => "Bearer #{Token.access_token}")
 
       if res[0] != expected_status
         raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
@@ -62,17 +62,18 @@ module PQSDK
     end
 
     private
+
     def self.from_json(json)
       result = Leaflet.new
 
       json.each do |key, val|
         if result.respond_to?("#{key}=") and key != 'retailer' and key != 'url' and key != 'pages'
           result.send("#{key}=", val)
-        elsif key=="url" and result.respond_to?(:origin=)
-          result.origin=val
-        elsif key=="retailer" and result.respond_to?(:retailer_id=)
-          result.retailer_id=val['id']
-        elsif key=="pages" and result.respond_to?(:page)
+        elsif key == 'url' and result.respond_to?(:origin=)
+          result.origin = val
+        elsif key == 'retailer' and result.respond_to?(:retailer_id=)
+          result.retailer_id = val['id']
+        elsif key == 'pages' and result.respond_to?(:page)
           val.each do |page|
             result.page_ids << page['id']
           end

@@ -14,7 +14,7 @@ module PQSDK
     end
 
     def self.find(name)
-      res = RestLayer.get('v1/brands/search', { q: name }, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.get('v1/brands/search', { q: name }, 'Authorization' => "Bearer #{Token.access_token}")
       if res[0] == 200
         Brand.from_json res[1]
       elsif res[0] == 404
@@ -25,6 +25,7 @@ module PQSDK
     end
 
     private
+
     def self.from_json(json)
       result = Brand.new
 
