@@ -5,7 +5,7 @@ module PQSDK
   # endpoint.
   class Offer < RemoteObject
     @endpoint = 'v1/offers'
-    
+
     attr_accessor :id, :title, :description, :price, :original_price, :discount,
                   :start_date, :end_date, :brand, :image, :store_ids, :national,
                   :partner_link, :btn_other_offers_visible, :btn_partner_link_text,

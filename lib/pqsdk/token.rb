@@ -1,4 +1,6 @@
 module PQSDK
+  # The Token holds the random access token generated on every crawler run,
+  # and it is used to authenticate all following requests.
   class Token
     @access_token = nil
     @expiration = nil

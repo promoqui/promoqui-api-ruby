@@ -21,13 +21,11 @@ module PQSDK
 
     def self.find(url)
       res = RestLayer.get('v1/leaflets', url: url)
-      if res[0] == 200
-        Leaflet.from_json res[1]
-      elsif res[0] == 404
-        nil
-      else
-        fail "Unexpected HTTP status code #{res[0]}"
-      end
+
+      return nil if res[0] == 404
+      fail "Unexpected HTTP status code #{res[0]}" unless res[0] == 200
+
+      Leaflet.from_json res[1]
     end
 
     def image_urls
