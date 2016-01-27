@@ -1,4 +1,5 @@
 require 'base64'
+require 'pqsdk/remote_object'
 
 module PQSDK
   # The Leaflet class provides an interface for crawlers to the v1/leaflets api
