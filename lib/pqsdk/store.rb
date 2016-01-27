@@ -61,7 +61,7 @@ module PQSDK
       end
 
       fields['opening_hours'] = opening_hours if opening_hours.is_a?(Array) && opening_hours.any?
-      fields['opening_hours_text'] = opening_hours_text if opening_hours_text
+      fields['opening_hours_text'] = opening_hours_text if opening_hours_text.is_a?(String) && opening_hours_text.strip != ""
 
       res = RestLayer.send(method, url, fields, { 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json' })
 
