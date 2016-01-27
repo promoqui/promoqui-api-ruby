@@ -1,9 +1,24 @@
+require 'pqsdk/remote_object'
+
 module PQSDK
-  class City
+  # The City class provides an interface for crawlers to the v1/cities api
+  # endpoint.
+  class City < RemoteObject
+    @endpoint = 'v1/cities'
+
     attr_accessor :id, :name, :inhabitants, :latitude, :longitude, :state, :country
 
+    validates :name, presence: true
+
+    def attributes
+      {
+        'name' => nil, 'inhabitants' => nil, 'latitude' => nil,
+        'longitude' => nil, 'state' => nil, 'country' => nil
+      }
+    end
+
     def self.find(name)
-      res = RestLayer.get('v1/cities', { q: name }, 'Authorization' => "Bearer #{Token.access_token}")
+      res = RestLayer.get('v1/cities', q: name)
       if res[0] == 200
         City.from_json res[1]
       elsif res[0] == 404
@@ -14,7 +29,7 @@ module PQSDK
     end
 
     def self.all
-      res = RestLayer.get('v1/cities', {}, 'Authorization' => "Bearer #{Token.access_token}")
+      res = RestLayer.get('v1/cities')
       if res[0] == 200
         cities = []
         res[1].each do |city|
@@ -34,19 +49,9 @@ module PQSDK
 
       city = City.new
       city.name = name
-      city.save
+      city.create!
 
       city
-    end
-
-    def save
-      res = RestLayer.post('v1/cities', { name: name }, 'Authorization' => "Bearer #{Token.access_token}")
-
-      if res[0] != 201
-        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
-      else
-        self.id = res[1]['id']
-      end
     end
 
     def self.from_json(json)
