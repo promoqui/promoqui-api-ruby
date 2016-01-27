@@ -12,6 +12,7 @@ engines:
 
 exclude_paths:
   - spec/**/*
+  - Guardfile
 
 ratings:
   paths:
