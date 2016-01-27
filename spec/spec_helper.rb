@@ -1,8 +1,17 @@
 require 'pqsdk'
 require 'webmock/rspec'
 require 'support/matchers'
+require 'shoulda-matchers'
+require 'active_support/core_ext/string'
 
 RSpec.configure do |config|
+  config.before do
+    PQSDK::Settings.schema = 'http'
+    PQSDK::Settings.host = 'www.example.com'
+  end
+
+  config.include Shoulda::Matchers::ActiveModel
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end

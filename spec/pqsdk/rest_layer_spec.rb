@@ -1,9 +1,4 @@
 describe PQSDK::RestLayer do
-  before do
-    PQSDK::Settings.schema = 'http'
-    PQSDK::Settings.host = 'www.example.com'
-  end
-
   describe '.get' do
     it 'launches a get request on the settings domain and given path' do
       stub = stub_request(:get, "www.example.com/api.json")
