@@ -48,4 +48,54 @@ describe PQSDK::Store do
       expect(JSON.parse(s.to_json)['name']).to eq 'Fake'
     end
   end
+
+  describe '#get' do
+    it 'gets the stores/:id endpoint with a get request' do
+      expect(PQSDK::RestLayer).to receive(:get)
+                                  .with(/v[0-9]+\/stores\/123/i)
+                                  .and_return([ 200, {}, {} ])
+      PQSDK::Store.get(123)
+    end
+
+    context 'when the response is successful' do
+      it 'returns a PQSDK::Store object' do
+        allow(PQSDK::RestLayer).to receive(:get)
+                                   .and_return([ 200, {}, {} ])
+        res = PQSDK::Store.get(123)
+        expect(res).to be_a(PQSDK::Store)
+      end
+
+      it 'stores the returned values' do
+        allow(PQSDK::RestLayer).to receive(:get)
+                                   .and_return([ 200, { id: 123, name: 'Fake' }, {} ])
+        res = PQSDK::Store.get(123)
+        expect(res.id).to eq 123
+        expect(res.name).to eq 'Fake'
+      end
+
+      it 'ignores unknown attributes' do
+        allow(PQSDK::RestLayer).to receive(:get)
+                                   .and_return([ 200, { id: 123, bad: 'Fake' }, {} ])
+        expect { PQSDK::Store.get(123) }.to_not raise_error
+      end
+    end
+
+    context 'when the response is not found' do
+      it 'returns nil' do
+        allow(PQSDK::RestLayer).to receive(:get)
+                                   .and_return([ 404, nil, {} ])
+        expect(PQSDK::Store.get(123)).to be_nil
+      end
+    end
+  end
+
+  describe '#persisted?' do
+    it 'is true when the id is defined' do
+      expect(PQSDK::Store.new(id: 1)).to be_persisted
+    end
+
+    it 'is false when the id is nil' do
+      expect(PQSDK::Store.new).to_not be_persisted
+    end
+  end
 end
