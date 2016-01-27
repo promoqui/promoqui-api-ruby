@@ -18,7 +18,7 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+        fail "Unexpected HTTP status code #{res[0]}"
       end
     end
 
@@ -27,12 +27,12 @@ module PQSDK
       endpoint = 'v1/leaflet'
       expected_status = 201
       fields = {}
-      fields['id'] = id unless id.is_a? Integer and !id.nil?
+      fields['id'] = id unless id.is_a?(Integer) && !id.nil?
 
       res = RestLayer.send(method, endpoint, fields, 'Authorization' => "Bearer #{Token.access_token}")
 
       if res[0] != expected_status
-        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
+        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
       end
     end
 
@@ -53,27 +53,23 @@ module PQSDK
       res = RestLayer.send(method, endpoint, fields, 'Authorization' => "Bearer #{Token.access_token}")
 
       if res[0] != expected_status
-        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
-      else
-        if method == :post
-          self.id = res[1]['id']
-        end
+        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
+      elsif method == :post
+        self.id = res[1]['id']
       end
     end
-
-    private
 
     def self.from_json(json)
       result = Leaflet.new
 
       json.each do |key, val|
-        if result.respond_to?("#{key}=") and key != 'retailer' and key != 'url' and key != 'pages'
+        if result.respond_to?("#{key}=") && key != 'retailer' && key != 'url' && key != 'pages'
           result.send("#{key}=", val)
-        elsif key == 'url' and result.respond_to?(:origin=)
+        elsif key == 'url' && result.respond_to?(:origin=)
           result.origin = val
-        elsif key == 'retailer' and result.respond_to?(:retailer_id=)
+        elsif key == 'retailer' && result.respond_to?(:retailer_id=)
           result.retailer_id = val['id']
-        elsif key == 'pages' and result.respond_to?(:page)
+        elsif key == 'pages' && result.respond_to?(:page)
           val.each do |page|
             result.page_ids << page['id']
           end

@@ -15,8 +15,8 @@ module PQSDK
     end
 
     def self.access_token
-      if @@access_token == nil || @@expiration <= Time.now
-        self.get
+      if @@access_token.nil? || @@expiration <= Time.now
+        get
       else
         @@access_token
       end

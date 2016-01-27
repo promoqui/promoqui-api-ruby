@@ -7,8 +7,6 @@ module PQSDK
       params.each do |key, val|
         send("#{key}=", val)
       end
-
-      store_ids ||= []
     end
 
     def save
@@ -17,8 +15,8 @@ module PQSDK
 
       fields = { offer: {} }
       [:title, :description, :price, :original_price, :discount, :start_date, :end_date, :brand, :image,
-        :national, :partner_link,
-        :btn_other_offers_visible, :btn_partner_link_text, :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible, :btn_online_offers_visible].each do |key|
+       :national, :partner_link, :btn_other_offers_visible, :btn_partner_link_text,
+       :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible, :btn_online_offers_visible].each do |key|
         fields[:offer][key.to_s] = send(key) unless send(key).nil?
       end
       fields[:offer]['store_ids'] = store_ids.presence || []
@@ -28,9 +26,9 @@ module PQSDK
       if [200, 201].include? res[0]
         # All right!
       elsif res[0] == 400
-        raise Exception.new("Bad request! Error: #{res[1]['errors']}")
+        fail "Bad request! Error: #{res[1]['errors']}"
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
+        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
       end
     end
 

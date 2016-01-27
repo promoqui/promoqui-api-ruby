@@ -9,7 +9,7 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
+        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
       end
     end
 
@@ -24,12 +24,12 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
+        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
       end
     end
 
     def self.find_or_create(name)
-      city = self.find(name)
+      city = find(name)
       return city if city
 
       city = City.new
@@ -43,21 +43,17 @@ module PQSDK
       res = RestLayer.post('v1/cities', { name: name }, 'Authorization' => "Bearer #{Token.access_token}")
 
       if res[0] != 201
-        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
+        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
       else
         self.id = res[1]['id']
       end
     end
 
-    private
-
     def self.from_json(json)
       result = City.new
 
       json.each do |key, val|
-        unless key == 'inhabitants' 
-          result.send("#{key}=", val)
-        end
+        result.send("#{key}=", val) unless key == 'inhabitants'
       end
 
       result

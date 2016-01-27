@@ -24,9 +24,9 @@ module PQSDK
       if res[0] == 200
         # All right!
       elsif res[0] == 400
-        raise Exception.new("Bad request! Error: #{res[1]['errors']}")
+        fail "Bad request! Error: #{res[1]['errors']}"
       else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}")
+        fail "Unexpected HTTP status code #{res[0]}"
       end
     end
   end
