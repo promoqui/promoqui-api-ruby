@@ -1,10 +1,4 @@
 engines:
-  brakeman:
-    enabled: true
-  bundler-audit:
-    enabled: true
-  csslint:
-    enabled: true
   fixme:
     enabled: true
   duplication:
@@ -13,10 +7,6 @@ engines:
       languages:
         - ruby
         - javascript
-  eslint:
-    enabled: true
-  coffeelint:
-    enabled: true
   rubocop:
     enabled: true
 
