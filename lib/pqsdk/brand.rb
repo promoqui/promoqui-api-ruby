@@ -1,9 +1,17 @@
 module PQSDK
-  class Brand
+  # The Brand class provides an interface for crawlers to the v1/brands api
+  # endpoint.
+  class Brand < RemoteObject
+    @endpoint = 'v1/brands'
+
     attr_accessor :id, :name, :slug
 
+    def attributes
+      { 'name' => nil, 'slug' => nil }
+    end
+
     def self.list
-      res = RestLayer.get('v1/brands', {}, { 'Authorization' => "Bearer #{Token.access_token}" })
+      res = RestLayer.get('v1/brands')
       if res[0] == 200
         res[1].map { |brand| Brand.from_json(brand) }
       elsif res[0] == 404
@@ -14,7 +22,7 @@ module PQSDK
     end
 
     def self.find(name)
-      res = RestLayer.get('v1/brands/search', { q: name }, 'Authorization' => "Bearer #{Token.access_token}")
+      res = RestLayer.get('v1/brands/search', q: name)
       if res[0] == 200
         Brand.from_json res[1]
       elsif res[0] == 404
