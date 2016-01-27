@@ -1,3 +1,5 @@
+require 'pqsdk/remote_object'
+
 module PQSDK
   # The Brand class provides an interface for crawlers to the v1/brands api
   # endpoint.
