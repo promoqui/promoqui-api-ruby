@@ -33,7 +33,7 @@ module PQSDK
       fail 'You are not authorized to perform that request' if status == 401
 
       begin
-        [status, JSON.parse(res.body), headers]
+        [status, JSON.parse(result.body), headers]
       rescue JSON::ParserError
         [status, nil, headers]
       end
