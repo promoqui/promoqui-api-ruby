@@ -26,7 +26,7 @@ module PQSDK
     def self.find(name)
       res = RestLayer.get("#{@endpoint}/search", q: name)
       if res[0] == 200
-        Brand.from_hash res[1]
+        from_hash res[1]
       elsif res[0] == 404
         nil
       else
