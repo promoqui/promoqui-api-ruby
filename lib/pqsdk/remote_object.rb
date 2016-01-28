@@ -37,7 +37,7 @@ module PQSDK
     end
 
     def create
-      res = RestLayer.post(@endpoint, serialized_hash, 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json')
+      res = RestLayer.post(self.class.endpoint, serializable_hash, 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json')
       if [201, 202].include? res[0]
         self.id = res[1]['id']
         true
@@ -48,7 +48,7 @@ module PQSDK
     end
 
     def update
-      res = RestLayer.put("#{@endpoint}/#{id}", serialized_hash, 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json')
+      res = RestLayer.put("#{self.class.endpoint}/#{id}", serializable_hash, 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json')
       if res[0] == 200
         true
       else
@@ -71,6 +71,10 @@ module PQSDK
 
     def persisted?
       !id.nil?
+    end
+
+    def self.endpoint
+      @endpoint
     end
   end
 end
