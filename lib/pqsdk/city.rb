@@ -20,7 +20,7 @@ module PQSDK
     def self.find(name)
       res = RestLayer.get(@endpoint, q: name)
       if res[0] == 200
-        City.from_json res[1]
+        City.from_hash res[1]
       elsif res[0] == 404
         nil
       else
@@ -31,7 +31,7 @@ module PQSDK
     def self.all
       res = RestLayer.get(@endpoint)
       if res[0] == 200
-        res[1].map { |city| City.from_json(city) }
+        res[1].map { |city| City.from_hash(city) }
       elsif res[0] == 404
         nil
       else
@@ -50,14 +50,8 @@ module PQSDK
       city
     end
 
-    def self.from_json(json)
-      result = City.new
-
-      json.each do |key, val|
-        result.send("#{key}=", val) unless key == 'inhabitants'
-      end
-
-      result
+    def self.from_hash(json)
+      super(json.stringify_keys.except('inhabitants'))
     end
   end
 end

@@ -25,7 +25,7 @@ module PQSDK
       return nil if res[0] == 404
       fail "Unexpected HTTP status code #{res[0]}" unless res[0] == 200
 
-      Leaflet.from_json res[1]
+      Leaflet.from_hash res[1]
     end
 
     def image_urls
@@ -38,16 +38,6 @@ module PQSDK
 
     def pdf_data=(data)
       @pdf_data = Base64.encode64(data)
-    end
-
-    def self.from_json(json)
-      result = Leaflet.new
-
-      json.each do |key, val|
-        result.send("#{key}=", val) if result.respond_to?("#{key}=")
-      end
-
-      result
     end
   end
 end

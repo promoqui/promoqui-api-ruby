@@ -27,7 +27,7 @@ module PQSDK
     def self.find(address, zipcode, retailer = nil)
       res = RestLayer.get(@endpoint, { address: address, zipcode: zipcode, retailer: retailer }, 'Authorization' => "Bearer #{Token.access_token}")
       if res[0] == 200
-        from_json res[1]
+        from_hash res[1]
       elsif res[0] == 404
         nil
       else
@@ -35,7 +35,7 @@ module PQSDK
       end
     end
 
-    def self.from_json(json)
+    def self.from_hash(json)
       super(json.stringify_keys.except('city'))
     end
   end

@@ -15,7 +15,7 @@ module PQSDK
     def self.list
       res = RestLayer.get(@endpoint)
       if res[0] == 200
-        res[1].map { |brand| Brand.from_json(brand) }
+        res[1].map { |brand| Brand.from_hash(brand) }
       elsif res[0] == 404
         nil
       else
@@ -26,22 +26,12 @@ module PQSDK
     def self.find(name)
       res = RestLayer.get("#{@endpoint}/search", q: name)
       if res[0] == 200
-        Brand.from_json res[1]
+        Brand.from_hash res[1]
       elsif res[0] == 404
         nil
       else
         fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
       end
-    end
-
-    def self.from_json(json)
-      result = Brand.new
-
-      json.each do |key, val|
-        result.send("#{key}=", val)
-      end
-
-      result
     end
   end
 end
