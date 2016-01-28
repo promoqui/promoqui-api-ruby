@@ -28,17 +28,6 @@ module PQSDK
       end
     end
 
-    def self.all
-      res = RestLayer.get(@endpoint)
-      if res[0] == 200
-        res[1].map { |city| City.from_hash(city) }
-      elsif res[0] == 404
-        nil
-      else
-        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
-      end
-    end
-
     def self.find_or_create(name)
       city = find(name)
       return city if city

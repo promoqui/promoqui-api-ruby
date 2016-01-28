@@ -13,14 +13,7 @@ module PQSDK
     end
 
     def self.list
-      res = RestLayer.get(@endpoint)
-      if res[0] == 200
-        res[1].map { |brand| Brand.from_hash(brand) }
-      elsif res[0] == 404
-        nil
-      else
-        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
-      end
+      all  # aliased until all crawlers use .all
     end
 
     def self.find(name)

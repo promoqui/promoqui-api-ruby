@@ -12,6 +12,15 @@ module PQSDK
       attr_reader :endpoint
     end
 
+    def self.all
+      res = RestLayer.get(@endpoint)
+      if res[0] == 200
+        res[1].map { |entry| from_hash(entry) }
+      else
+        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
+      end
+    end
+
     def self.get(id)
       res = RestLayer.get("#{@endpoint}/#{id}")
       if res[0] == 200
