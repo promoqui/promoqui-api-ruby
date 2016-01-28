@@ -49,9 +49,5 @@ module PQSDK
 
       city
     end
-
-    def self.from_hash(json)
-      super(json.stringify_keys.except('inhabitants'))
-    end
   end
 end
