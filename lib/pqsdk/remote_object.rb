@@ -58,7 +58,7 @@ module PQSDK
     end
 
     def save!
-      save || fail("Save failed")
+      save || fail('Save failed')
     end
 
     def create!
@@ -73,8 +73,8 @@ module PQSDK
       !id.nil?
     end
 
-    def self.endpoint
-      @endpoint
+    class << self
+      attr_reader :endpoint
     end
   end
 end

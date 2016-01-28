@@ -35,7 +35,7 @@ describe PQSDK::Store do
 
   describe '#to_json' do
     it 'ignores the city value' do
-      s = PQSDK::Store.from_json({ 'id': 1, 'name': 'Fake', 'city': 'Whatever' })
+      s = PQSDK::Store.from_json('id' => 1, 'name' => 'Fake', 'city' => 'Whatever')
       expect(s.name).to eq 'Fake'
       expect(s.city).to be_nil
     end

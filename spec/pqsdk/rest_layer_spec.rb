@@ -14,7 +14,7 @@ describe PQSDK::RestLayer do
              .with(query: { a: 1, b: 'hello' })
              .to_return(body: '{}')
 
-      PQSDK::RestLayer.get('api.json', { b: 'hello', a: 1 })
+      PQSDK::RestLayer.get('api.json', b: 'hello', a: 1)
 
       expect(stub).to have_been_requested
     end
