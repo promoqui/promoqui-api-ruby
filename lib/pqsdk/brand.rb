@@ -13,7 +13,7 @@ module PQSDK
     end
 
     def self.list
-      res = RestLayer.get('v1/brands')
+      res = RestLayer.get(@endpoint)
       if res[0] == 200
         res[1].map { |brand| Brand.from_json(brand) }
       elsif res[0] == 404
@@ -24,7 +24,7 @@ module PQSDK
     end
 
     def self.find(name)
-      res = RestLayer.get('v1/brands/search', q: name)
+      res = RestLayer.get("#{@endpoint}/search", q: name)
       if res[0] == 200
         Brand.from_json res[1]
       elsif res[0] == 404
