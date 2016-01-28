@@ -24,7 +24,7 @@ describe PQSDK::RemoteObject do
   describe '.get' do
     it 'gets the stores/:id endpoint with a get request' do
       expect(PQSDK::RestLayer).to receive(:get)
-        .with(/v1\/fakes\/123/i)
+        .with('v1/fakes/123')
         .and_return([200, {}, {}])
       FakeObject.get(123)
     end

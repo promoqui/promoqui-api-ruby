@@ -130,7 +130,7 @@ describe PQSDK::RestLayer do
                .with(body: '{"a":1}', headers: { 'Content-Type' => 'application/json' })
                .to_return(body: '{}')
 
-        PQSDK::RestLayer.send(method, 'api.json', { a: 1 })
+        PQSDK::RestLayer.send(method, 'api.json', a: 1)
 
         expect(stub).to have_been_requested
       end
