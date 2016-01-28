@@ -36,15 +36,7 @@ module PQSDK
     end
 
     def self.from_json(json)
-      result = Store.new
-
-      json.each do |key, val|
-        if result.respond_to?("#{key}=") && key != 'city'
-          result.send("#{key}=", val)
-        end
-      end
-
-      result
+      super(json.stringify_keys.except('city'))
     end
   end
 end

@@ -19,6 +19,15 @@ module PQSDK
       end
     end
 
+    def self.from_json(json)
+      result = new
+      json.each do |k, v|
+        result.send("#{k}=", v) if result.respond_to?("#{k}=")
+      end
+
+      result
+    end
+
     def save
       if valid?
         persisted? ? update! : create!
@@ -46,6 +55,10 @@ module PQSDK
         fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
         # false
       end
+    end
+
+    def save!
+      save || fail("Save failed")
     end
 
     def create!
