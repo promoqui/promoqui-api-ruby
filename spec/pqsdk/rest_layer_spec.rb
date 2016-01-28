@@ -75,7 +75,7 @@ describe PQSDK::RestLayer do
 
       it 'sets request parameters' do
         stub = stub_request(method, 'www.example.com/api.json')
-               .with(body: { a: '1', b: 'hello' })
+               .with(body: '{"b":"hello","a":1}')
                .to_return(body: '{}')
 
         PQSDK::RestLayer.send(method, 'api.json', b: 'hello', a: 1)
@@ -125,12 +125,12 @@ describe PQSDK::RestLayer do
         expect(response[2]).to eq('x-location' => 'Rome')
       end
 
-      it 'sends a json encoded request when the content-type header is given' do
+      it 'sends a json encoded request' do
         stub = stub_request(method, 'www.example.com/api.json')
                .with(body: '{"a":1}', headers: { 'Content-Type' => 'application/json' })
                .to_return(body: '{}')
 
-        PQSDK::RestLayer.send(method, 'api.json', { a: 1 }, 'Content-Type' => 'application/json')
+        PQSDK::RestLayer.send(method, 'api.json', { a: 1 })
 
         expect(stub).to have_been_requested
       end

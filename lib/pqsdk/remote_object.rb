@@ -8,10 +8,14 @@ module PQSDK
     include ActiveModel::Model
     include ActiveModel::Serializers::JSON
 
+    class << self
+      attr_reader :endpoint
+    end
+
     def self.get(id)
       res = RestLayer.get("#{@endpoint}/#{id}")
       if res[0] == 200
-        from_json res[1]
+        from_hash res[1]
       elsif res[0] == 404
         nil
       else
@@ -19,7 +23,7 @@ module PQSDK
       end
     end
 
-    def self.from_json(json)
+    def self.from_hash(json)
       result = new
       json.each do |k, v|
         result.send("#{k}=", v) if result.respond_to?("#{k}=")
@@ -37,7 +41,7 @@ module PQSDK
     end
 
     def create
-      res = RestLayer.post(self.class.endpoint, serializable_hash, 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json')
+      res = RestLayer.post(self.class.endpoint, serializable_hash, 'Authorization' => "Bearer #{Token.access_token}")
       if [201, 202].include? res[0]
         self.id = res[1]['id']
         true
@@ -48,7 +52,7 @@ module PQSDK
     end
 
     def update
-      res = RestLayer.put("#{self.class.endpoint}/#{id}", serializable_hash, 'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json')
+      res = RestLayer.put("#{self.class.endpoint}/#{id}", serializable_hash, 'Authorization' => "Bearer #{Token.access_token}")
       if res[0] == 200
         true
       else
@@ -71,10 +75,6 @@ module PQSDK
 
     def persisted?
       !id.nil?
-    end
-
-    class << self
-      attr_reader :endpoint
     end
   end
 end

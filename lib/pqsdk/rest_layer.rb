@@ -9,15 +9,13 @@ module PQSDK
     end
 
     def self.post(endpoint, parameters = {}, headers = {})
-      parameters = parameters.to_json if headers['Content-Type'] == 'application/json'
-      res = connection.post endpoint, parameters, headers
+      res = connection.post endpoint, parameters.to_json, headers.merge('Content-Type' => 'application/json')
 
       check_result(res)
     end
 
     def self.put(endpoint, parameters = {}, headers = {})
-      parameters = parameters.to_json if headers['Content-Type'] == 'application/json'
-      res = connection.put endpoint, parameters, headers
+      res = connection.put endpoint, parameters.to_json, headers.merge('Content-Type' => 'application/json')
 
       check_result(res)
     end
