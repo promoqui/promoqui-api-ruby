@@ -73,6 +73,7 @@ store.save # Save store's data
 ><pre><code language="ruby">
 >[{:weekday=>0, :open_am=>"09:00", :close_am=>"13:00", :open_pm=>"14:00", :close_pm=>"18:00"},...]
 > If the store is closed you need to use such as: [{:weekday=>6, :closed=>true}]
+> The opening_hours *must* be in total 7 (one for every day) and must be *uniq* so please be carreful with this
 ></code></pre>
 
 
