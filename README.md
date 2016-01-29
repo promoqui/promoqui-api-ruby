@@ -1,4 +1,4 @@
-# PromoQui API Wrapper for Ruby
+# PromoQui API Wrapper for Ruby
 
 This library is for internal use only. It serves as an helper for Ruby developers when interacting with the PromoQui REST API for Crawlers.
 
