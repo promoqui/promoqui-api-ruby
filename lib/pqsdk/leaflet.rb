@@ -20,7 +20,7 @@ module PQSDK
     end
 
     def self.find(url)
-      res = RestLayer.get(@endpoint, url: url)
+      res = RestLayer.get(@endpoint, url: url, retailer_id: Token.retailer_id)
 
       return nil if res[0] == 404
       fail "Unexpected HTTP status code #{res[0]}" unless res[0] == 200

@@ -4,6 +4,7 @@ module PQSDK
   class Token
     @access_token = nil
     @expiration = nil
+    @retailer_id = nil
 
     def self.get
       res = RestLayer.get('v1/token', {}, 'Authentication' => "Key #{Settings.app_secret}")
@@ -11,6 +12,7 @@ module PQSDK
       if res[0] == 200
         @access_token = res[1]['token']
         @expiration = Time.parse(res[1]['expired_at'])
+        @retailer_id = res[1]['retailer_id']
       end
 
       @access_token
@@ -24,9 +26,18 @@ module PQSDK
       end
     end
 
+    def self.retailer_id
+      if @retailer_id.nil?
+        get
+      end
+
+      @retailer_id
+    end
+
     def self.reset!
       @access_token = nil
       @expiration = nil
+      @retailer_id = nil
     end
   end
 end

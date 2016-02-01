@@ -27,8 +27,12 @@ describe PQSDK::Leaflet do
   end
 
   describe '#find' do
-    it 'GETs the index action with the url parameter' do
-      expect(PQSDK::RestLayer).to receive(:get).with('v1/leaflets', url: 'fake').and_return([200, {}, {}])
+    before do
+      allow(PQSDK::Token).to receive(:retailer_id).and_return 123
+    end
+
+    it 'GETs the index action with the url and retailer_id parameters' do
+      expect(PQSDK::RestLayer).to receive(:get).with('v1/leaflets', url: 'fake', retailer_id: 123).and_return([200, {}, {}])
       PQSDK::Leaflet.find('fake')
     end
 
