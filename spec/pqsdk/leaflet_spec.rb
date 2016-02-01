@@ -25,4 +25,26 @@ describe PQSDK::Leaflet do
     l = PQSDK::Leaflet.new(name: 'Test', url: 'http://www.google.com', pdf_data: 'raw pdf data')
     expect(l.serializable_hash['pdf_data']).to eq "cmF3IHBkZiBkYXRh\n"
   end
+
+  describe '#find' do
+    it 'GETs the index action with the url parameter' do
+      expect(PQSDK::RestLayer).to receive(:get).with('v1/leaflets', url: 'fake').and_return([200, {}, {}])
+      PQSDK::Leaflet.find('fake')
+    end
+
+    it 'returns a Leaflet object with the fields filled' do
+      allow(PQSDK::RestLayer).to receive(:get).and_return([200, {name: 'test'}, {}])
+      result = PQSDK::Leaflet.find('fake')
+
+      expect(result).to be_a PQSDK::Leaflet
+      expect(result.name).to eq 'test'
+    end
+
+    it 'returns nil if the leaflet is not found' do
+      allow(PQSDK::RestLayer).to receive(:get).and_return([404, {}, {}])
+      result = PQSDK::Leaflet.find('fake')
+
+      expect(result).to be_nil
+    end
+  end
 end

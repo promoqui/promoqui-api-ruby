@@ -25,7 +25,7 @@ module PQSDK
       return nil if res[0] == 404
       fail "Unexpected HTTP status code #{res[0]}" unless res[0] == 200
 
-      Leaflet.from_hash res[1]
+      from_hash res[1]
     end
 
     def image_urls
