@@ -27,9 +27,7 @@ module PQSDK
     end
 
     def self.retailer_id
-      if @retailer_id.nil?
-        get
-      end
+      get unless @retailer_id
 
       @retailer_id
     end
