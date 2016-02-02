@@ -73,7 +73,7 @@ describe PQSDK::RemoteObject do
 
     it 'returns true if the object gets saved' do
       allow(PQSDK::RestLayer).to receive(:post)
-        .and_return([201, {'id' => 1}, {}])
+        .and_return([201, { 'id' => 1 }, {}])
 
       s = FakeObject.new(name: 'Fake')
       expect(s.save).to be_truthy
@@ -84,7 +84,7 @@ describe PQSDK::RemoteObject do
 
       it 'sends a put request to the object' do
         expect(PQSDK::RestLayer).to receive(:put)
-          .with(%r(v\d+/fakes/1$), {'name' => 'Fake'}, 'Authorization' => 'Bearer 123')
+          .with(%r{v\d+/fakes/1$}, { 'name' => 'Fake' }, 'Authorization' => 'Bearer 123')
           .and_return([200, {}, {}])
         o.save
       end
@@ -101,7 +101,7 @@ describe PQSDK::RemoteObject do
 
       it 'sends a post request to the collection' do
         expect(PQSDK::RestLayer).to receive(:post)
-          .with(%r(v\d+/fakes$), {'name' => 'Fake'}, 'Authorization' => 'Bearer 123')
+          .with(%r{v\d+/fakes$}, { 'name' => 'Fake' }, 'Authorization' => 'Bearer 123')
           .and_return([201, {}, {}])
         o.save
       end

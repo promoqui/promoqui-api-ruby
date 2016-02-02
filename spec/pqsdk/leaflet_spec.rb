@@ -37,7 +37,7 @@ describe PQSDK::Leaflet do
     end
 
     it 'returns a Leaflet object with the fields filled' do
-      allow(PQSDK::RestLayer).to receive(:get).and_return([200, {name: 'test'}, {}])
+      allow(PQSDK::RestLayer).to receive(:get).and_return([200, { name: 'test' }, {}])
       result = PQSDK::Leaflet.find('fake')
 
       expect(result).to be_a PQSDK::Leaflet

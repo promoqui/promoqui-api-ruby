@@ -13,7 +13,7 @@ module PQSDK
     end
 
     def self.list
-      all  # aliased until all crawlers use .all
+      all # aliased until all crawlers use .all
     end
 
     def self.find(name)
