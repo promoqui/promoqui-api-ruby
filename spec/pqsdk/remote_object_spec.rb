@@ -106,7 +106,7 @@ describe PQSDK::RemoteObject do
         o.save
       end
 
-      it 'raises an error if the response is not 201 or 203' do
+      it 'raises an error if the response is not 201 or 202' do
         allow(PQSDK::RestLayer).to receive(:post)
           .and_return([400, {}, {}])
         expect { o.save }.to raise_error(RuntimeError)
