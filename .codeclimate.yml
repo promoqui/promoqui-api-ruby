@@ -1,0 +1,20 @@
+engines:
+  fixme:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - ruby
+        - javascript
+  rubocop:
+    enabled: true
+
+exclude_paths:
+  - spec/**/*
+  - Guardfile
+
+ratings:
+  paths:
+    - lib/**
+    - Gemfile

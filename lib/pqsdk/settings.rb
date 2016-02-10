@@ -1,33 +1,21 @@
 module PQSDK
+  # The Settings class contains the configuration for the library.
   class Settings
-    # Why not cattr_accessor? :(
+    class << self
+      attr_accessor :host, :app_secret, :schema
 
-    @@host = nil
-    @@app_secret = nil
-    @@schema = 'http'
+      def schema
+        @schema ||= 'http'
+      end
 
-    def self.host
-      @@host
+      def app_secret=(secret)
+        Token.reset!
+        @app_secret = secret
+      end
     end
 
-    def self.host=(val)
-      @@host = val
-    end
-
-    def self.app_secret
-      @@app_secret
-    end
-
-    def self.app_secret=(val)
-      @@app_secret = val
-    end
-
-    def self.schema
-      @@schema
-    end
-
-    def self.schema=(val)
-      @@schema = val
+    def self.api_root
+      "#{schema}://#{host}"
     end
   end
 end

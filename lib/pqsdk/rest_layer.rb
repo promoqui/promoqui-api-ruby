@@ -1,77 +1,39 @@
 module PQSDK
+  # A small wrapper to the Faraday gem to make get/post/put requests to the API
+  # server.
   class RestLayer
-    def self.get(endpoint, parameters, headers)
-      url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
-      url.query = URI.encode_www_form(parameters)
-      req = Net::HTTP::Get.new(url.request_uri)
+    def self.get(endpoint, parameters = {}, headers = {})
+      res = connection.get endpoint, parameters, headers
 
-      headers.each do |name, value|
-        req[name.to_s] = value
-      end
-
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.request(req)
-      end
-
-      check_status(res.code.to_i, res.body)
-
-      [ res.code.to_i, JSON.parse(res.body), res.to_hash ]
+      check_result(res)
     end
 
-    def self.post(endpoint, parameters, headers)
-      url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
-      req = Net::HTTP::Post.new(url.request_uri)
+    def self.post(endpoint, parameters = {}, headers = {})
+      res = connection.post endpoint, parameters.to_json, headers.merge('Content-Type' => 'application/json')
 
-      if headers['Content-Type'] == 'application/json'
-        req.body = parameters.to_json
-      else
-        req.set_form_data(parameters)
-      end
-
-      headers.each do |name, value|
-        req[name.to_s] = value
-      end
-
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.request(req)
-      end
-
-      check_status(res.code.to_i, res.body)
-      if res.body and res.body.length > 1
-        [ res.code.to_i, JSON.parse(res.body), res.to_hash ]
-      else
-        [ res.code.to_i, {}, res.to_hash ]
-      end
+      check_result(res)
     end
 
-    def self.put(endpoint, parameters, headers)
-      url = URI.parse("#{Settings.schema}://#{Settings.host}/#{endpoint}")
-      req = Net::HTTP::Put.new(url.request_uri)
+    def self.put(endpoint, parameters = {}, headers = {})
+      res = connection.put endpoint, parameters.to_json, headers.merge('Content-Type' => 'application/json')
 
-      if headers['Content-Type'] == 'application/json'
-        req.body = parameters.to_json
-      else
-        req.set_form_data(parameters)
-      end
-
-      headers.each do |name, value|
-        req[name.to_s] = value
-      end
-
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.request(req)
-      end
-
-      check_status(res.code.to_i, res.body)
-      [ res.code.to_i, JSON.parse(res.body), res.to_hash ]
+      check_result(res)
     end
 
-  private
-    def self.check_status(code, body)
-      if code >= 500
-        raise Exception.new("Internal Server Error: " + body)
-      elsif code == 401
-        raise Exception.new("You are not authorized to perform that request")
+    def self.connection
+      Faraday.new(Settings.api_root)
+    end
+
+    def self.check_result(result)
+      status = result.status.to_i
+      headers = result.headers
+      fail "Internal Server Error: #{result.body}" if status >= 500
+      fail 'You are not authorized to perform that request' if status == 401
+
+      begin
+        [status, JSON.parse(result.body), headers]
+      rescue JSON::ParserError
+        [status, nil, headers]
       end
     end
   end

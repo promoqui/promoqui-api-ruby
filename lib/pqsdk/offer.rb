@@ -1,52 +1,32 @@
+require 'pqsdk/remote_object'
+
 module PQSDK
-  class Offer
-    attr_accessor :title, :description, :price, :original_price, :discount, :start_date, :end_date, :brand, :image, :store_ids, :national, :partner_link,
-                  :btn_other_offers_visible, :btn_partner_link_text, :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible, :btn_online_offers_visible
+  # The Offer class provides an interface for crawlers to the v1/offers api
+  # endpoint.
+  class Offer < RemoteObject
+    @endpoint = 'v1/offers'
 
-    def initialize(params = {})
-      params.each do |key, val|
-        send("#{key}=", val)
-      end
+    attr_accessor :id, :title, :description, :price, :original_price, :discount,
+                  :start_date, :end_date, :brand, :image, :store_ids, :national,
+                  :partner_link, :btn_other_offers_visible, :btn_partner_link_text,
+                  :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible,
+                  :btn_online_offers_visible
 
-      store_ids ||= []
-    end
+    validates :title, :image, :store_ids, presence: true
 
-    def save
-      method = :post
-      endpoint = "v1/offers"
-
-      fields = {:offer => {}}
-      [ :title, :description, :price, :original_price, :discount, :start_date, :end_date, :brand, :image,
-        :national, :partner_link,
-        :btn_other_offers_visible, :btn_partner_link_text, :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible, :btn_online_offers_visible ].each do |key|
-        fields[:offer][key.to_s] = send(key) unless send(key).nil?
-      end
-      fields[:offer]['store_ids'] = store_ids.presence || []
-
-      res = RestLayer.send(method, endpoint, fields, {'Authorization' => "Bearer #{Token.access_token}", 'Content-Type' => 'application/json'})
-
-      if [200, 201].include? res[0]
-        # All right!
-      elsif res[0] == 400
-        raise Exception.new("Bad request! Error: #{res[1]['errors']}")
-      else
-        raise Exception.new("Unexpected HTTP status code #{res[0]}, #{res[1]}")
-      end
-    end
-
-    def to_hash
+    def attributes
       {
-        title: title,
-        description: description,
-        price: price,
-        original_price: original_price,
-        discount: discount,
-        start_date: start_date,
-        end_date: end_date,
-        brand: brand,
-        image: image,
-        store_ids: store_ids
+        'title' => nil, 'description' => nil, 'price' => nil, 'original_price' => nil,
+        'discount' => nil, 'start_date' => nil, 'end_date' => nil, 'brand' => nil,
+        'image' => nil, 'store_ids' => nil, 'national' => nil, 'partner_link' => nil,
+        'btn_other_offers_visible' => nil, 'btn_partner_link_text' => nil,
+        'btn_partner_link_visible' => nil, 'btn_print_visible' => nil,
+        'btn_stores_visible' => nil, 'btn_online_offers_visible' => nil
       }
+    end
+
+    def store_ids
+      @store_ids ||= []
     end
   end
 end
