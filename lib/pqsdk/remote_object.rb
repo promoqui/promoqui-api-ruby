@@ -17,7 +17,7 @@ module PQSDK
       if res[0] == 200
         res[1].map { |entry| from_hash(entry) }
       else
-        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
+        raise "Unexpected HTTP status code #{res[0]}, #{res[1]}"
       end
     end
 
@@ -28,7 +28,7 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
+        raise "Unexpected HTTP status code #{res[0]}, #{res[1]}"
       end
     end
 
@@ -55,7 +55,7 @@ module PQSDK
         self.id = res[1]['id']
         true
       else
-        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
+        raise "Unexpected HTTP status code #{res[0]}, #{res[1]}"
         # false
       end
     end
@@ -65,13 +65,13 @@ module PQSDK
       if res[0] == 200
         true
       else
-        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
+        raise "Unexpected HTTP status code #{res[0]}, #{res[1]}"
         # false
       end
     end
 
     def save!
-      save || fail('Save failed')
+      save || raise('Save failed')
     end
 
     def create!

@@ -27,8 +27,8 @@ module PQSDK
     def self.check_result(result)
       status = result.status.to_i
       headers = result.headers
-      fail "Internal Server Error: #{result.body}" if status >= 500
-      fail 'You are not authorized to perform that request' if status == 401
+      raise "Internal Server Error: #{result.body}" if status >= 500
+      raise 'You are not authorized to perform that request' if status == 401
 
       begin
         [status, JSON.parse(result.body), headers]

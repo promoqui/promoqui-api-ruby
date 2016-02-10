@@ -24,7 +24,7 @@ module PQSDK
       elsif res[0] == 404
         nil
       else
-        fail "Unexpected HTTP status code #{res[0]}, #{res[1]}"
+        raise "Unexpected HTTP status code #{res[0]}, #{res[1]}"
       end
     end
 
