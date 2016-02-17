@@ -30,23 +30,43 @@ module PQSDK
     end
 
     def btn_other_offers_visible
-      @btn_other_offers_visible ||= true
+      if @btn_other_offers_visible.nil?
+        @btn_other_offers_visible = true
+      else
+        @btn_other_offers_visible
+      end
     end
 
     def btn_partner_link_visible
-      @btn_partner_link_visible ||= true
+      if @btn_partner_link_visible.nil?
+        @btn_partner_link_visible = true
+      else
+        @btn_partner_link_visible
+      end
     end
 
     def btn_print_visible
-      @btn_print_visible ||= true
+      if @btn_print_visible.nil?
+        @btn_print_visible = true
+      else
+        @btn_print_visible
+      end
     end
 
     def btn_stores_visible
-      @btn_stores_visible ||= true
+      if @btn_stores_visible.nil?
+        @btn_stores_visible = true
+      else
+        @btn_stores_visible
+      end
     end
 
     def btn_online_offers_visible
-      @btn_online_offers_visible ||= true
+      if @btn_online_offers_visible.nil?
+        @btn_online_offers_visible = true
+      else
+        @btn_online_offers_visible
+      end
     end
   end
 end
