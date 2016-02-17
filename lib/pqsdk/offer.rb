@@ -28,5 +28,25 @@ module PQSDK
     def store_ids
       @store_ids ||= []
     end
+
+    def btn_other_offers_visible
+      @btn_other_offers_visible ||= true
+    end
+
+    def btn_partner_link_visible
+      @btn_partner_link_visible ||= true
+    end
+
+    def btn_print_visible
+      @btn_print_visible ||= true
+    end
+
+    def btn_stores_visible
+      @btn_stores_visible ||= true
+    end
+
+    def btn_online_offers_visible
+      @btn_online_offers_visible ||= true
+    end
   end
 end
