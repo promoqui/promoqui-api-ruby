@@ -13,7 +13,7 @@ module PQSDK
                   :btn_online_offers_visible
 
     validates :title, :image, presence: true
-    validates :store_ids, presence: true unless national?
+    validates :store_ids, presence: true, if: proc { |c| c.national == false }
 
     def attributes
       {
@@ -28,10 +28,6 @@ module PQSDK
 
     def national
       @national ||= false
-    end
-
-    def national?
-      national
     end
 
     def store_ids
