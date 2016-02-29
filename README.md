@@ -51,7 +51,7 @@ cities = PQSDK::City.all.select{|x| x.country == 'gbr'} # will return an array o
 
 If you have to cycle on US states, we have a CSV file in Rails lib directory. To use it you have to point in:
 ```ruby
-states = CSV.read(Rails.root.join('lib'))
+states = CSV.read(Rails.root.join('lib/us_states_coordinates.csv'))
 ```
 The CSV file have 3 columns: State's name, state's latitude and state's longitude
 
