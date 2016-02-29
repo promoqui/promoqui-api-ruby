@@ -9,7 +9,7 @@ module PQSDK
     attr_accessor :id, :origin, :name, :address, :latitude, :longitude, :city,
                   :city_id, :zipcode, :phone, :opening_hours, :opening_hours_text
 
-    validates :origin, :name, :address, :latitude, :longitude, presence: true
+    validates :origin, :name, :address, presence: true
     validates :city_id, presence: true, if: proc { |s| s.city.nil? }
 
     def attributes

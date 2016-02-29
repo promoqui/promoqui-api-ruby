@@ -54,12 +54,12 @@ cities = PQSDK::City.all.select{|x| x.country == 'gbr'} # will return an array o
 ```ruby
 store = PQSDK::Store.find('Via Roma, 32', '80100')
 if store.nil?
-  store = PQSDK::Store.new 
+  store = PQSDK::Store.new
   store.name = "Store name" #Required!
-  store.address = "Via Roma, 32" Required!
+  store.address = "Via Roma, 32" #Required!
   store.city = "Naples" # if the city is not present on database then the city will be created. Required!
-  store.latitude = # insert the store's latitude. Required!
-  store.longitude = # insert the store's longitude. Required!
+  store.latitude = # insert the store's latitude.
+  store.longitude = # insert the store's longitude.
   store.zipcode = # insert the store's postalcode. if there is no postalcode, insert "00000". Required!
   store.origin = # insert the store's url. Required!
   store.phone = # insert the store's phone if present
@@ -125,7 +125,7 @@ For each offer we need to parse:
   * Offer's image url
   * Offer's price
   * Offer's original price _if present_
-  
+
 Suppose we have all offers saved in an array called `offers` and an array called `storeIds` that contains all store ids:
 ```ruby
 offers.each do |data|
