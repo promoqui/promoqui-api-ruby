@@ -46,15 +46,22 @@ That line of code will interrogate the PromoQui database for that City, eventual
 
 To get only cities from a specific country you have to use something like this:
 ```ruby
-cities = PQSDK::City.all.select{|x| x.country == 'gbr'} # will return an array of City objects that havve only country=gbr
+cities = PQSDK::City.all.select{|x| x.country == 'gbr'} # will return an array of City objects that have only country=gbr
 ```
+
+If you have to cycle on US states, we have a CSV file in Rails lib directory. To use it you have to point in:
+```ruby
+states = CSV.read(Rails.root.join('lib'))
+```
+The CSV file have 3 columns: State's name, state's latitude and state's longitude
+
 
 # Working with stores
 
 ```ruby
 store = PQSDK::Store.find('Via Roma, 32', '80100')
 if store.nil?
-  store = PQSDK::Store.new 
+  store = PQSDK::Store.new
   store.name = "Store name" #Required!
   store.address = "Via Roma, 32" Required!
   store.city = "Naples" # if the city is not present on database then the city will be created. Required!
@@ -125,7 +132,7 @@ For each offer we need to parse:
   * Offer's image url
   * Offer's price
   * Offer's original price _if present_
-  
+
 Suppose we have all offers saved in an array called `offers` and an array called `storeIds` that contains all store ids:
 ```ruby
 offers.each do |data|
@@ -134,6 +141,6 @@ offers.each do |data|
   offer.save
 end
 ```
-With the above code we scroll all offers, asing storeIds to offer and save it.
+With the above code we scroll all offers, assing storeIds to offer and save it.
 
 # Have a nice day
