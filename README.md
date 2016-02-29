@@ -46,8 +46,15 @@ That line of code will interrogate the PromoQui database for that City, eventual
 
 To get only cities from a specific country you have to use something like this:
 ```ruby
-cities = PQSDK::City.all.select{|x| x.country == 'gbr'} # will return an array of City objects that havve only country=gbr
+cities = PQSDK::City.all.select{|x| x.country == 'gbr'} # will return an array of City objects that have only country=gbr
 ```
+
+If you have to cycle on US states, we have a CSV file in Rails lib directory. To use it you have to point in:
+```ruby
+states = CSV.read(Rails.root.join('lib/us_states_coordinates.csv'))
+```
+The CSV file have 3 columns: State's name, state's latitude and state's longitude
+
 
 # Working with stores
 
@@ -134,6 +141,6 @@ offers.each do |data|
   offer.save
 end
 ```
-With the above code we scroll all offers, asing storeIds to offer and save it.
+With the above code we scroll all offers, assing storeIds to offer and save it.
 
 # Have a nice day

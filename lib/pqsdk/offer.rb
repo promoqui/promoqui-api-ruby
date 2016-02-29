@@ -12,7 +12,8 @@ module PQSDK
                   :btn_partner_link_visible, :btn_print_visible, :btn_stores_visible,
                   :btn_online_offers_visible
 
-    validates :title, :image, :store_ids, presence: true
+    validates :title, :image, presence: true
+    validates :store_ids, presence: true, if: proc { |c| c.national == false }
 
     def attributes
       {
@@ -23,6 +24,10 @@ module PQSDK
         'btn_partner_link_visible' => nil, 'btn_print_visible' => nil,
         'btn_stores_visible' => nil, 'btn_online_offers_visible' => nil
       }
+    end
+
+    def national
+      @national ||= false
     end
 
     def store_ids
