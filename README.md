@@ -86,6 +86,10 @@ store.save # Save store's data
 
 That code will interrogate the database for a store at that address, with that zipcode, among the stores for the retailer we were assigned. If the store was not found then we will set all data of store and then save it.
 
+
+>##Note about Geocoder use##
+>If you can't find the store's latitude/longitude coordinates then you have to skip latitude/longitude settings to PQSDK::Store object. Our server will set them using geocoder only the first time.
+
 # Working with leaflets
 
 ```ruby
