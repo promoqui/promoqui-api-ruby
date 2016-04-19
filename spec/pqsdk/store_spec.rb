@@ -15,8 +15,6 @@ describe PQSDK::Store do
   it { is_expected.to validate_presence_of :origin }
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :address }
-  it { is_expected.to validate_presence_of :latitude }
-  it { is_expected.to validate_presence_of :longitude }
 
   context 'when city is nil' do
     subject { PQSDK::Store.new(city: nil) }
