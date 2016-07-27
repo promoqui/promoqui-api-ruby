@@ -5,7 +5,7 @@ module PQSDK
       attr_accessor :host, :app_secret, :schema
 
       def schema
-        @schema ||= 'http'
+        @schema ||= 'https'
       end
 
       def app_secret=(secret)
