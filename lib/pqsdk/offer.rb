@@ -76,7 +76,7 @@ module PQSDK
 
     def go_to_partner_link
       if @go_to_partner_link.nil?
-        @go_to_partner_link = true
+        @go_to_partner_link = false
       else
         @go_to_partner_link
       end
