@@ -150,9 +150,9 @@ With the above code we scroll all offers, assing storeIds to offer and save it.
 #Update Ruby Gem
 
 To update this gem you have to execute next actions:
-  * 1
-  * 2
-  * 3
-  * 4
+  * Update Gem version into lib/pqsdk/version.rb file
+  * Git add/commit/push
+  * Rebuild Gem _gem build promoqui-api-sdk.gemspec_ (this command generates 'gem' file)
+  * Push Gem _gem push promoqui-api-sdk-[version].gem_
 
 # Have a nice day
