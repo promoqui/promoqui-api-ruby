@@ -147,4 +147,12 @@ end
 ```
 With the above code we scroll all offers, assing storeIds to offer and save it.
 
+#Update Ruby Gem
+
+To update this gem you have to execute next actions:
+  * 1
+  * 2
+  * 3
+  * 4
+
 # Have a nice day
