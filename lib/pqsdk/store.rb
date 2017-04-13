@@ -7,7 +7,7 @@ module PQSDK
     @endpoint = 'v1/stores'
 
     attr_accessor :id, :origin, :name, :address, :latitude, :longitude, :city,
-                  :city_id, :zipcode, :phone, :opening_hours, :opening_hours_text, :region
+                  :city_id, :zipcode, :phone, :opening_hours, :opening_hours_text, :region, :extra_infos
 
     validates :origin, :name, :address, presence: true
     validates :city_id, presence: true, if: proc { |s| s.city.nil? }
@@ -16,7 +16,7 @@ module PQSDK
       {
         'origin' => nil, 'name' => nil, 'address' => nil, 'latitude' => nil,
         'longitude' => nil, 'city' => nil, 'city_id' => nil, 'zipcode' => nil,
-        'phone' => nil, 'opening_hours' => nil, 'opening_hours_text' => nil, 'region' => nil
+        'phone' => nil, 'opening_hours' => nil, 'opening_hours_text' => nil, 'region' => nil, 'extra_infos' => nil
       }
     end
 
