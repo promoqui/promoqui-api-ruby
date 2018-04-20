@@ -6,7 +6,7 @@ module PQSDK
   class City < RemoteObject
     @endpoint = 'v1/cities'
 
-    attr_accessor :id, :name, :inhabitants, :latitude, :longitude, :state, :country, :county, :is_county
+    attr_accessor :id, :name, :inhabitants, :latitude, :longitude, :state, :country, :county, :is_county, :zipcode
 
     validates :name, presence: true
 
